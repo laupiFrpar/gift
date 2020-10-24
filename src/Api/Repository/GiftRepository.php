@@ -1,10 +1,10 @@
 <?php
 
-namespace Lopi\Repository;
+namespace Lopi\Api\Repository;
 
-use Lopi\Entity\Gift;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Lopi\Api\Entity\Gift;
 
 /**
  * @method Gift|null find($id, $lockMode = null, $lockVersion = null)

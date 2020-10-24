@@ -3,6 +3,7 @@
 namespace Lopi\Test;
 
 use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
+use Lopi\Api\Test\ApiTestCase;
 
 class UserResourceTest extends ApiTestCase
 {

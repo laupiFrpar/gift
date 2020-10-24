@@ -1,10 +1,10 @@
 <?php
 
-namespace Lopi\Entity;
+namespace Lopi\Api\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use Lopi\Repository\UserRepository;
+use Lopi\Api\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;

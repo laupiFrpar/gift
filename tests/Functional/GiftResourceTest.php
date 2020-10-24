@@ -3,7 +3,7 @@
 namespace Lopi\Tests\Functional;
 
 use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
-use Lopi\Test\ApiTestCase;
+use Lopi\Api\Test\ApiTestCase;
 
 class GiftResourceTest extends ApiTestCase
 {

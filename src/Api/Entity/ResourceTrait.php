@@ -1,6 +1,6 @@
 <?php
 
-namespace Lopi\Entity;
+namespace Lopi\Api\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;

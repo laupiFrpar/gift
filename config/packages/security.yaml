@@ -1,6 +1,6 @@
 security:
     encoders:
-        Lopi\Entity\User:
+        Lopi\Api\Entity\User:
             algorithm: auto
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -8,7 +8,7 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
-                class: Lopi\Entity\User
+                class: Lopi\Api\Entity\User
                 property: email
     firewalls:
         dev:
@@ -19,12 +19,12 @@ security:
             # lazy: true
             # provider: users_in_memory
             json_login:
-                check_path: gift_login
+                check_path: api_login
                 username_path: email
                 password_path: password
 
             logout:
-                path: gift_logout
+                path: logout
 
 
             # activate different ways to authenticate

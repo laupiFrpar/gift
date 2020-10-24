@@ -1,10 +1,10 @@
 <?php
 
-namespace Lopi\Test;
+namespace Lopi\Api\Test;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
-use Lopi\Entity\User;
+use Lopi\Api\Entity\User;
 
 class ApiTestCase extends BaseApiTestCase
 {
@@ -16,8 +16,10 @@ class ApiTestCase extends BaseApiTestCase
             // ->setUsername(substr($email, 0, strpos($email, '@')))
         ;
 
-        $encoded = self::$container->get('security.password_encoder')
-            ->encodePassword($user, $password);
+        $encoded = self::$container
+            ->get('security.password_encoder')
+            ->encodePassword($user, $password)
+        ;
         $user->setPassword($encoded);
 
         $em = self::$container->get('doctrine')->getManager();
@@ -29,7 +31,7 @@ class ApiTestCase extends BaseApiTestCase
 
     protected function logIn(Client $client, string $email, string $password)
     {
-        $client->request('POST', '/login', [
+        $client->request('POST', '/api/login', [
             'headers' => ['Content-Type' => 'application/json'],
             'json' => [
                 'email' => $email,

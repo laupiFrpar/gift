@@ -17,14 +17,18 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            - '../src/Api/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    Lopi\Controller\:
-        resource: '../src/Controller/'
+    Lopi\Api\Controller\:
+        resource: '../src/Api/Controller/'
+        tags: ['controller.service_arguments']
+
+    Lopi\App\Controller\:
+        resource: '../src/App/Controller/'
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed

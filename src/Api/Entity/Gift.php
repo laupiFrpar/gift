@@ -1,10 +1,10 @@
 <?php
 
-namespace Lopi\Entity;
+namespace Lopi\Api\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use Lopi\Repository\GiftRepository;
+use Lopi\Api\Repository\GiftRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

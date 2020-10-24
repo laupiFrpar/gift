@@ -1,2 +1,2 @@
 maker:
-    root_namespace: 'Lopi'
+    root_namespace: 'Lopi\Api'
