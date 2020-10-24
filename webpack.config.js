@@ -53,6 +53,9 @@ Encore
         config.corejs = 3;
     })
 
+    // enable .vue file processing
+    .enableVueLoader()
+
     // enables Sass/SCSS support
     //.enableSassLoader()
 
