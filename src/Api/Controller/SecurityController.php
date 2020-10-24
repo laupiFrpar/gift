@@ -25,6 +25,9 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/logout", name="api_logout")
+     */
     public function logout()
     {
         throw new \Exception('Should not be reached');

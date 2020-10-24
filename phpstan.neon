@@ -1,0 +1,8 @@
+parameters:
+    checkMissingIterableValueType: false
+    level: 7
+    paths:
+        - src
+        - tests
+    symfony:
+        container_xml_path: var/cache/dev/Semeia_Azure_KernelDevDebugContainer.xml

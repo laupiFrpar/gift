@@ -24,7 +24,7 @@ security:
                 password_path: password
 
             logout:
-                path: logout
+                path: api_logout
 
 
             # activate different ways to authenticate

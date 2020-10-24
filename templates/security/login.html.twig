@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login - {{ parent() }}{% endblock %}
+
+{% block body %}<div id="security-login"></div>{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('login') }}
+{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  {{ encore_entry_link_tags('login') }}
+{% endblock %}

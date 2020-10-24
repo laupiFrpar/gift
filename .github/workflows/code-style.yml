@@ -1,0 +1,55 @@
+# https://help.github.com/en/actions
+name: Code style
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Gift Code Style (PHP ${{ matrix.php-versions }})
+    # https://hub.docker.com/_/ubuntu/
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions: ['7.4']
+    steps:
+      # —— Setup Github actions 🐙 —————————————————————————————————————————————
+      # https://github.com/actions/checkout (official)
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # https://github.com/shivammathur/setup-php (community)
+      - name: Setup PHP, extensions and composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
+          tools: phpcs, phpstan
+        env:
+          update: true
+
+      - name: Validate composer files
+        run: composer validate
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install global dependencies
+        run: composer global require phpstan/extension-installer phpunit/phpunit
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Sniff code
+        run: phpcs
+
+      - name: Analyse code
+        run: phpstan analyse -c phpstan.neon --no-progress
