@@ -1,4 +1,6 @@
 {
+    "name": "lopi/gift",
+    "description": "A project to manage gifts",
     "type": "project",
     "license": "proprietary",
     "require": {
