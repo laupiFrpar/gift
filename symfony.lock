@@ -185,6 +185,12 @@
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
     },
+    "phpstan/phpstan": {
+        "version": "0.12.51"
+    },
+    "phpstan/phpstan-symfony": {
+        "version": "0.12.10"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -414,6 +420,15 @@
     },
     "symfony/property-info": {
         "version": "v5.1.7"
+    },
+    "symfony/requirements-checker": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "02c6e4b9b117c39e8a23eab7f3840ef6e62293b9"
+        }
     },
     "symfony/routing": {
         "version": "5.1",

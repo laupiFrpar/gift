@@ -9,7 +9,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserDataPersister implements DataPersisterInterface
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
+
+    /**
+     * @var UserPasswordEncoderInterface
+     */
     private $userPasswordEncoder;
 
     public function __construct(
@@ -20,6 +27,9 @@ class UserDataPersister implements DataPersisterInterface
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
+    /**
+     * @param User $data
+     */
     public function supports($data): bool
     {
         return $data instanceof User;
@@ -41,7 +51,10 @@ class UserDataPersister implements DataPersisterInterface
         $this->entityManager->flush();
     }
 
-    public function remove($data)
+    /**
+     * @param User $data
+     */
+    public function remove($data): void
     {
         $this->entityManager->remove($data);
         $this->entityManager->flush();

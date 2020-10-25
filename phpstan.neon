@@ -5,4 +5,4 @@ parameters:
         - src
         - tests
     symfony:
-        container_xml_path: var/cache/dev/Semeia_Azure_KernelDevDebugContainer.xml
+        container_xml_path: var/cache/dev/Lopi_KernelDevDebugContainer.xml

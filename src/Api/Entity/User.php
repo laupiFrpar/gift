@@ -36,6 +36,8 @@ class User implements UserInterface, ResourceInterface
     use ResourceTrait;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"user:read", "user:write"})
      * @Assert\NotBlank()
@@ -43,17 +45,22 @@ class User implements UserInterface, ResourceInterface
     private $email;
 
     /**
+     * @var array
+     *
      * @ORM\Column(type="json")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
+     *
      * @ORM\Column(type="string")
      */
     private $password;
 
     /**
+     * @var string|null
+     *
      * @Groups({"user:write"})
      * @SerializedName("password")
      * @Assert\NotBlank(groups={"create"})
@@ -121,13 +128,13 @@ class User implements UserInterface, ResourceInterface
      */
     public function getSalt()
     {
-        // not needed when using the "bcrypt" algorithm in security.yaml
+        return null;
     }
 
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         $this->plainPassword = null;

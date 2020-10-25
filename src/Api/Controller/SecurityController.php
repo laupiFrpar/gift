@@ -12,7 +12,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="api_login", methods={"POST"})
      */
-    public function login(IriConverterInterface $iriConverter)
+    public function login(IriConverterInterface $iriConverter): Response
     {
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->json([
@@ -28,7 +28,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/logout", name="api_logout")
      */
-    public function logout()
+    public function logout(): void
     {
         throw new \Exception('Should not be reached');
     }

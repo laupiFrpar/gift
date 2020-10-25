@@ -34,12 +34,14 @@
     },
     "require-dev": {
         "hautelook/alice-bundle": "^2.8",
+        "phpstan/phpstan-symfony": "^0.12.10",
         "symfony/browser-kit": "^5.1",
         "symfony/css-selector": "^5.1",
         "symfony/debug-bundle": "^5.1",
         "symfony/http-client": "5.1.*",
         "symfony/maker-bundle": "^1.22",
         "symfony/phpunit-bridge": "^5.1",
+        "symfony/requirements-checker": "^2.0",
         "symfony/stopwatch": "^5.1",
         "symfony/var-dumper": "^5.1",
         "symfony/web-profiler-bundle": "^5.1"
@@ -73,7 +75,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "requirements-checker": "script"
         },
         "post-install-cmd": [
             "@auto-scripts"

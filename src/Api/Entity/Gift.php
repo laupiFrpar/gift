@@ -27,6 +27,8 @@ class Gift implements ResourceInterface
     use ResourceTrait;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -36,6 +38,8 @@ class Gift implements ResourceInterface
     private $title;
 
     /**
+     * @var float
+     *
      * @ORM\Column(type="float")
      * @Assert\NotBlank()
      */

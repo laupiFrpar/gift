@@ -9,6 +9,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 trait ResourceTrait
 {
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
