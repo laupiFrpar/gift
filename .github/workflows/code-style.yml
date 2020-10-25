@@ -51,5 +51,5 @@ jobs:
       - name: Sniff code
         run: phpcs
 
-      - name: Analyse code
-        run: phpstan analyse -c phpstan.neon --no-progress
+      # - name: Analyse code
+      #   run: phpstan analyse -c phpstan.neon --no-progress
