@@ -27,7 +27,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
-          tools: phpunit
+          # tools: phpunit
         env:
           update: true
 
@@ -47,8 +47,11 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: Install phpunit
+        run: bin/phpunit
+
       - name: Check requirements
         run: vendor/bin/requirements-checker
 
       - name: Test
-        run: APP_ENV=test phpunit --stop-on-failure
+        run: APP_ENV=test bin/phpunit --stop-on-failure
