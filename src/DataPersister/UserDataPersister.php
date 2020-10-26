@@ -1,10 +1,10 @@
 <?php
 
-namespace Lopi\Api\DataPersister;
+namespace Lopi\DataPersister;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Lopi\Api\Entity\User;
+use Lopi\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserDataPersister implements DataPersisterInterface

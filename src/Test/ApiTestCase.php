@@ -1,18 +1,19 @@
 <?php
 
-namespace Lopi\Api\Test;
+namespace Lopi\Test;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
-use Lopi\Api\Entity\User;
+use Lopi\Entity\User;
 
 class ApiTestCase extends BaseApiTestCase
 {
-    protected function createUser(string $email, string $password): User
+    protected function createUser(string $email, string $password, array $roles = ['ROLE_USER']): User
     {
         $user = new User();
         $user
             ->setEmail($email)
+            ->setRoles($roles)
             // ->setUsername(substr($email, 0, strpos($email, '@')))
         ;
 
@@ -32,7 +33,6 @@ class ApiTestCase extends BaseApiTestCase
     protected function logIn(Client $client, string $email, string $password)
     {
         $client->request('POST', '/api/login', [
-            'headers' => ['Content-Type' => 'application/json'],
             'json' => [
                 'email' => $email,
                 'password' => $password
@@ -41,9 +41,9 @@ class ApiTestCase extends BaseApiTestCase
         $this->assertResponseStatusCodeSame(204);
     }
 
-    protected function createUserAndLogIn(Client $client, string $email, string $password): User
+    protected function createUserAndLogIn(Client $client, string $email, string $password, array $roles = ['ROLE_USER']): User
     {
-        $user = $this->createUser($email, $password);
+        $user = $this->createUser($email, $password, $roles);
 
         $this->logIn($client, $email, $password);
 

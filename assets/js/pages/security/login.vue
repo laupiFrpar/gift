@@ -13,7 +13,7 @@
 
 <script>
 import axios from 'axios';
-import FormLogin from '../../component/form/Login';
+import FormLogin from '@component/form/Login';
 
 export default {
   name: 'SecurityLogin',

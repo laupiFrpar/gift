@@ -1,6 +1,6 @@
 <?php
 
-namespace Lopi\Api\Controller;
+namespace Lopi\Controller\Api;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

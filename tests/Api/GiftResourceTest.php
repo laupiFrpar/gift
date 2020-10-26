@@ -1,9 +1,9 @@
 <?php
 
-namespace Lopi\Tests\Functional;
+namespace Lopi\Tests\Api;
 
 use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
-use Lopi\Api\Test\ApiTestCase;
+use Lopi\Test\ApiTestCase;
 
 class GiftResourceTest extends ApiTestCase
 {

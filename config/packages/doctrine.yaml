@@ -13,6 +13,6 @@ doctrine:
             LopiApi:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Api/Entity'
-                prefix: 'Lopi\Api\Entity'
-                alias: LopiApi
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'Lopi\Entity'
+                alias: Lopi

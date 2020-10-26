@@ -1,6 +1,6 @@
 <?php
 
-namespace Lopi\Api\Entity;
+namespace Lopi\Entity;
 
 interface ResourceInterface
 {

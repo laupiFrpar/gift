@@ -1,14 +1,17 @@
 security:
     encoders:
-        Lopi\Api\Entity\User:
+        Lopi\Entity\User:
             algorithm: auto
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
-                class: Lopi\Api\Entity\User
+                class: Lopi\Entity\User
                 property: email
     firewalls:
         dev:
@@ -36,5 +39,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: '^/api/login', roles: 'IS_AUTHENTICATED_ANONYMOUSLY', requires_channel: '%env(CHANNEL)%' }
+        - { path: '^/*', roles: 'ROLE_USER', requires_channel: '%env(CHANNEL)%' }

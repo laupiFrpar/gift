@@ -1,10 +1,10 @@
 <?php
 
-namespace Lopi\Api\Entity;
+namespace Lopi\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use Lopi\Api\Repository\UserRepository;
+use Lopi\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      collectionOperations={
  *          "get",
  *          "post"={
- *              "security"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')",
+ *              "security"="is_granted('ROLE_ADMIN')",
  *              "validation_groups"={"Default", "create"}
  *          },
  *      },
