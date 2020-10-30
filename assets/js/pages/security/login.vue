@@ -1,19 +1,14 @@
 <template>
-  <div
-    id="security-login"
-    class="row no-gutters justify-content-center"
-  >
-    <div class="col-4 align-self-center">
-      <form-login
-        @user-authenticated="onUserAuthenticated"
-      />
-    </div>
+  <div class="col-lg-4">
+    <form-login
+      @user-authenticated="onUserAuthenticated"
+    />
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import FormLogin from '@component/form/Login';
+import FormLogin from '@/component/form/Login';
 
 export default {
   name: 'SecurityLogin',
@@ -26,7 +21,7 @@ export default {
         .get(userUri)
         .then(() => {
           // redirect to admin page
-          document.location.href = '/admin';
+          document.location.href = '/';
         });
     },
   },

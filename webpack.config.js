@@ -28,6 +28,8 @@ Encore
    */
   .addEntry('app', './assets/js/app.js')
   .addEntry('login', './assets/js/login.js')
+  .addEntry('home', './assets/js/home.js')
+  .addEntry('people', './assets/js/people.js')
 
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   .splitEntryChunks()
@@ -83,5 +85,9 @@ Encore
   //.enableReactPreset()
   //.addEntry('admin', './assets/admin.js')
 ;
+
+if (!Encore.isProduction()) {
+  Encore.disableCssExtraction();
+}
 
 module.exports = Encore.getWebpackConfig();

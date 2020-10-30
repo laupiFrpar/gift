@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gift - Peoples{% endblock %}
+
+{% block body %}
+<div id="people-app"></div>
+{% endblock %}
+
+{% block javascripts %}
+  <script>
+    window.peoples = {{ peoples|jsonld }};
+    window.currentPageName = 'people';
+  </script>
+  {{ parent() }}
+  {{ encore_entry_script_tags('people') }}
+{% endblock %}

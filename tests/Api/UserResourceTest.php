@@ -66,7 +66,7 @@ class UserResourceTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testUpdate()
+    public function testUpdateAsUser()
     {
         $client = self::createClient();
         $user = $this->createUserAndLogIn($client, 'john.do@gift.test', 'azerty');
@@ -82,7 +82,7 @@ class UserResourceTest extends ApiTestCase
         ]);
     }
 
-    public function testUpdateAnotherUser()
+    public function testUpdateAnotherUserAsUser()
     {
         $client = self::createClient();
         $this->createUserAndLogIn($client, 'john.do@gift.test', 'azerty');
@@ -94,5 +94,22 @@ class UserResourceTest extends ApiTestCase
             ]
         ]);
         $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdateAnotherUserAsAdmin()
+    {
+        $client = self::createClient();
+        $this->createUserAndLogIn($client, 'admin@gift.test', 'admin', ['ROLE_ADMIN']);
+        $user = $this->createUser('unknown@gift.test', 'azerty');
+
+        $client->request('PUT', '/api/users/'.$user->getId(), [
+            'json' => [
+                'email' => 'john.doe@gift.test',
+            ]
+        ]);
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonContains([
+                'email' => 'john.doe@gift.test'
+        ]);
     }
 }

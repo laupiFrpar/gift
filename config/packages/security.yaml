@@ -13,6 +13,7 @@ security:
             entity:
                 class: Lopi\Entity\User
                 property: email
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -20,7 +21,7 @@ security:
         main:
             anonymous: true
             # lazy: true
-            # provider: users_in_memory
+            provider: app_user_provider
             json_login:
                 check_path: api_login
                 username_path: email
@@ -28,7 +29,7 @@ security:
 
             logout:
                 path: api_logout
-
+                target: app_login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -39,5 +40,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: '^/api/login', roles: 'IS_AUTHENTICATED_ANONYMOUSLY', requires_channel: '%env(CHANNEL)%' }
-        - { path: '^/*', roles: 'ROLE_USER', requires_channel: '%env(CHANNEL)%' }
+        # Try to set this security in the controller
+        - { path: '^(/api)?/logout', roles: 'ROLE_USER', requires_channel: '%env(CHANNEL)%' }
+        - { path: '^(/api)?/login', roles: 'IS_AUTHENTICATED_ANONYMOUSLY', requires_channel: '%env(CHANNEL)%' }
+        - { path: '^/', roles: 'IS_AUTHENTICATED_FULLY', requires_channel: '%env(CHANNEL)%' }
