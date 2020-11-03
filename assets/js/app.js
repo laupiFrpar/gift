@@ -10,6 +10,6 @@ import 'styles/app.scss';
 
 import 'bootstrap';
 import { createApp } from 'vue';
-import TheHeader from '@/component/layout/TheHeader';
+import TheHeader from '@/components/layout/TheHeader';
 
 createApp(TheHeader).mount('#header');

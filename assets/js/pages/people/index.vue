@@ -33,14 +33,15 @@
               class="btn btn-primary"
               @click="edit(people['@id'], index)"
             >
-              Edit
+              <i class="fas fa-edit" />
             </button>
+            &nbsp;
             <button
               type="button"
               class="btn btn-danger"
               @click="remove(index)"
             >
-              Delete
+              <i class="fas fa-trash" />
             </button>
           </td>
         </tr>

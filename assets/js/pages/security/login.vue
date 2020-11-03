@@ -8,7 +8,7 @@
 
 <script>
 import axios from 'axios';
-import FormLogin from '@/component/form/Login';
+import FormLogin from '@/components/form/Login';
 
 export default {
   name: 'SecurityLogin',
