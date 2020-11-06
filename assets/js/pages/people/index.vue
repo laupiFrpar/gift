@@ -5,7 +5,7 @@
         class="btn btn-primary"
         type="button"
         data-toggle="modal"
-        data-target="#add-new-people-modal"
+        data-target="#generic-modal"
       >
         Add
       </button>
@@ -56,7 +56,13 @@
     </table>
 
     <!-- Modal -->
-    <div
+    <modal
+      centered="true"
+      title="Modal title"
+    >
+      Modal content
+    </modal>
+    <!-- <div
       id="add-new-people-modal"
       class="modal fade"
       data-backdrop="static"
@@ -134,16 +140,20 @@
           </div>
         </form>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import { fetchPeoples } from '@/services/peoples-service';
 import axios from 'axios';
+import Modal from '@/components/modal';
 
 export default {
   name: 'HomePeople',
+  components: {
+    Modal,
+  },
   data() {
     return {
       peoples: [],
