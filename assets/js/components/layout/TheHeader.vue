@@ -1,7 +1,8 @@
 <template>
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <span class="navbar-brand h1">Gift</span>
+      <div class="container-fluid">
+        <span class="navbar-brand h1">Gift</span>
       <ul
         v-if="user"
         class="navbar-nav mr-auto"
@@ -47,6 +48,7 @@
           >Login</a>
         </li>
       </ul>
+      </div>
     </nav>
   </header>
 </template>

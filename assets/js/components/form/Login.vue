@@ -9,22 +9,28 @@
     <div
       v-if="error"
       class="alert alert-danger"
+      role="alert"
     >
       {{ error }}
     </div>
-    <div class="form-group">
-      <label for="email">Email address</label>
+    <div class="mb-3">
+      <label
+        for="email"
+        class="form-label"
+      >Email address</label>
       <input
         id="email"
         v-model="email"
         type="email"
         class="form-control"
-        aria-describedby="emailHelp"
         placeholder="Enter email"
       >
     </div>
-    <div class="form-group">
-      <label for="password">Password</label>
+    <div class="mb-3">
+      <label
+        for="password"
+        class="form-label"
+      >Password</label>
       <input
         id="password"
         v-model="password"
