@@ -1,0 +1,8 @@
+parameters:
+  password: $2y$13$Vg52Vi/lTMUNvdjiRi3PQOugsTp3RbKzUfrjSa1QNbwKVxETASykq
+
+Lopi\Entity\User:
+  admin:
+    email: admin@gift.wip
+    roles: ['ROLE_ADMIN']
+    password: <{password}>
