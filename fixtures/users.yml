@@ -6,3 +6,8 @@ Lopi\Entity\User:
     email: admin@gift.wip
     roles: ['ROLE_ADMIN']
     password: <{password}>
+
+Lopi\Entity\People:
+  people{1..10}:
+    firstName: '<firstName()>'
+    lastName: '<lastName()>'

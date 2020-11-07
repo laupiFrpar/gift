@@ -8,8 +8,11 @@ use Lopi\Entity\User;
 
 class ApiTestCase extends BaseApiTestCase
 {
-    protected function createUser(string $email, string $password, array $roles = ['ROLE_USER']): User
-    {
+    protected function createUser(
+        string $email,
+        string $password,
+        array $roles = ['ROLE_USER']
+    ): User {
         $user = new User();
         $user
             ->setEmail($email)
