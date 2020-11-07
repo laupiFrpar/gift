@@ -58,61 +58,27 @@
     </table>
 
     <!-- Modal -->
-    <modal
-      centered="true"
-      confirm-text="Add"
-      title="Add new user"
-      @confirm="handleSubmit"
-    >
-      <form>
-        <div class="mb-3">
-          <label
-            for="first-name"
-            class="form-label"
-          >First name</label>
-          <input
-            id="first-name"
-            v-model="peopleModel.firstName"
-            type="text"
-            class="form-control"
-            name="first-name"
-          >
-        </div>
-        <div class="mb-3">
-          <label
-            for="last-name"
-            class="form-label"
-          >Last name</label>
-          <input
-            id="last-name"
-            v-model="peopleModel.lastName"
-            type="text"
-            class="form-control"
-            name="last-name"
-          >
-        </div>
-      </form>
-    </modal>
+    <people-form-modal @submitted="updateList" />
   </div>
 </template>
 
 <script>
 import { fetchPeoples } from '@/services/peoples-service';
 import axios from 'axios';
-import Modal from '@/components/modal';
+import PeopleFormModal from '@/components/modal/form/People';
 
 export default {
   name: 'HomePeople',
   components: {
-    Modal,
+    PeopleFormModal,
   },
   data() {
     return {
       peoples: [],
-      peopleModel: {
-        firstName: null,
-        lastName: null,
-      },
+      // peopleModel: {
+      //   firstName: null,
+      //   lastName: null,
+      // },
     };
   },
   async created() {
@@ -121,14 +87,8 @@ export default {
     this.peoples = response.data['hydra:member'];
   },
   methods: {
-    handleSubmit() {
-      return axios
-        .post('/api/peoples', this.peopleModel)
-        .then((response) => {
-          this.peoples.push(response.data);
-
-          return true;
-        });
+    updateList(people) {
+      this.peoples.push(people);
     },
     remove(index) {
       axios
