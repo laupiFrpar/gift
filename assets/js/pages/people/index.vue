@@ -11,14 +11,16 @@
       </button>
     </nav>
     <table class="table table-hover">
-      <thead class="thead-light">
-        <th scope="col">
-          First name
-        </th>
-        <th scope="col">
-          Last name
-        </th>
-        <th scope="col" />
+      <thead>
+        <tr>
+          <th scope="col">
+            First name
+          </th>
+          <th scope="col">
+            Last name
+          </th>
+          <th scope="col" />
+        </tr>
       </thead>
       <tbody v-if="peoples.length">
         <tr
@@ -58,89 +60,39 @@
     <!-- Modal -->
     <modal
       centered="true"
-      title="Modal title"
+      confirm-text="Add"
+      title="Add new user"
+      @confirm="handleSubmit"
     >
-      Modal content
+      <form>
+        <div class="mb-3">
+          <label
+            for="first-name"
+            class="form-label"
+          >First name</label>
+          <input
+            id="first-name"
+            v-model="peopleModel.firstName"
+            type="text"
+            class="form-control"
+            name="first-name"
+          >
+        </div>
+        <div class="mb-3">
+          <label
+            for="last-name"
+            class="form-label"
+          >Last name</label>
+          <input
+            id="last-name"
+            v-model="peopleModel.lastName"
+            type="text"
+            class="form-control"
+            name="last-name"
+          >
+        </div>
+      </form>
     </modal>
-    <!-- <div
-      id="add-new-people-modal"
-      class="modal fade"
-      data-backdrop="static"
-      data-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="addNewUserModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <form @submit.prevent="handleSubmit">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5
-                id="addNewUserModalLabel"
-                class="modal-title"
-              >
-                Add new user
-              </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <label
-                  for="first-name"
-                  class="col-form-label"
-                >
-                  First name
-                </label>
-                <input
-                  id="first-name"
-                  v-model="peopleForm.firstName"
-                  type="text"
-                  name="first-name"
-                  class="form-control"
-                >
-              </div>
-              <div class="form-group">
-                <label
-                  for="last-name"
-                  class="col-form-label"
-                >
-                  Last name
-                </label>
-                <input
-                  id="last-name"
-                  v-model="peopleForm.lastName"
-                  type="text"
-                  name="last-name"
-                  class="form-control"
-                >
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="submit"
-                class="btn btn-primary"
-              >
-                Create
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -157,7 +109,7 @@ export default {
   data() {
     return {
       peoples: [],
-      peopleForm: {
+      peopleModel: {
         firstName: null,
         lastName: null,
       },
@@ -167,12 +119,11 @@ export default {
     const response = await fetchPeoples();
 
     this.peoples = response.data['hydra:member'];
-    console.log(this.peoples);
   },
   methods: {
     handleSubmit() {
       return axios
-        .post('/api/peoples', this.peopleForm)
+        .post('/api/peoples', this.peopleModel)
         .then((response) => {
           this.peoples.push(response.data);
 
