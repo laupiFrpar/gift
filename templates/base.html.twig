@@ -16,6 +16,11 @@
     {% block javascripts %}
       <script>
         window.user = {{ app.user|jsonld }};
+        window.lopiConfig = {
+          pagination: {
+            items_per_page: {{ pagination_items_per_page }},
+          }
+        };
       </script>
       {{ encore_entry_script_tags('app') }}
     {% endblock %}

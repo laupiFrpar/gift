@@ -10,52 +10,13 @@
         Add
       </button>
     </nav>
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">
-            First name
-          </th>
-          <th scope="col">
-            Last name
-          </th>
-          <th scope="col" />
-        </tr>
-      </thead>
-      <tbody v-if="peoples.length">
-        <tr
-          v-for="(people, index) in peoples"
-          :key="people['@id']"
-        >
-          <td>{{ people.firstName }}</td>
-          <td>{{ people.lastName }}</td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-primary"
-              @click="edit(people['@id'], index)"
-            >
-              <i class="fas fa-edit" />
-            </button>
-            &nbsp;
-            <button
-              type="button"
-              class="btn btn-danger"
-              @click="remove(index)"
-            >
-              <i class="fas fa-trash" />
-            </button>
-          </td>
-        </tr>
-      </tbody>
-      <tbody v-else>
-        <tr class="text-center">
-          <td colspan="3">
-            No people registered
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+    <people-list
+      :peoples="peoples"
+      :total-items="totalItems"
+      @remove-people="remove"
+      @change-page="changePage"
+    />
 
     <!-- Modal -->
     <people-form-modal @submitted="updateList" />
@@ -63,32 +24,49 @@
 </template>
 
 <script>
-import { fetchPeoples } from '@/services/peoples-service';
 import axios from 'axios';
+import { fetchPeoples } from '@/services/peoples-service';
 import PeopleFormModal from '@/components/modal/form/People';
+import PeopleList from '@/components/people-list';
 
 export default {
   name: 'HomePeople',
   components: {
     PeopleFormModal,
+    PeopleList,
   },
   data() {
     return {
       peoples: [],
-      // peopleModel: {
-      //   firstName: null,
-      //   lastName: null,
-      // },
+      totalItems: 0,
     };
   },
-  async created() {
-    const response = await fetchPeoples();
-
-    this.peoples = response.data['hydra:member'];
+  created() {
+    this.loadPeoples(this.currentPage);
   },
   methods: {
-    updateList(people) {
-      this.peoples.push(people);
+    changePage(page) {
+      this.loadPeoples(page);
+    },
+    // edit(peopleId) {
+    //   axios.get(peopleId);
+    // },
+    async loadPeoples(page) {
+      // this.loading = true;
+      let response;
+
+      try {
+        response = await fetchPeoples(page);
+        // this.loading = false;
+      } catch (e) {
+        // this.loading = false;
+
+        return;
+      }
+
+      this.peoples = response.data['hydra:member'];
+      this.totalItems = response.data['hydra:totalItems'];
+      this.currentPage = page;
     },
     remove(index) {
       axios
@@ -97,8 +75,8 @@ export default {
           this.peoples.splice(index, 1);
         });
     },
-    edit(peopleId) {
-      axios.get(peopleId);
+    updateList(people) {
+      this.peoples.push(people);
     },
   },
 };

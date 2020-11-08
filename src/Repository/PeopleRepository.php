@@ -2,7 +2,6 @@
 
 namespace Lopi\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Lopi\Entity\People;
 
@@ -12,7 +11,7 @@ use Lopi\Entity\People;
  * @method People[]    findAll()
  * @method People[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PeopleRepository extends ServiceEntityRepository
+class PeopleRepository extends BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

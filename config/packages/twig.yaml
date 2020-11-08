@@ -1,2 +1,4 @@
 twig:
-    default_path: '%kernel.project_dir%/templates'
+  default_path: '%kernel.project_dir%/templates'
+  globals:
+    pagination_items_per_page: '%lopi.pagination.items_per_page%'

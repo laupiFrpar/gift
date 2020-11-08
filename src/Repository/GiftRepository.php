@@ -2,7 +2,6 @@
 
 namespace Lopi\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Lopi\Entity\Gift;
 
@@ -12,7 +11,7 @@ use Lopi\Entity\Gift;
  * @method Gift[]    findAll()
  * @method Gift[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GiftRepository extends ServiceEntityRepository
+class GiftRepository extends BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

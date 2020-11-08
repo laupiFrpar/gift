@@ -16,7 +16,6 @@ class PeopleController extends AbstractController
     {
         return $this->render('app/people/index.html.twig', [
             'controller_name' => 'PeopleController',
-            'peoples' => $peopleRepository->findAll(),
         ]);
     }
 }
