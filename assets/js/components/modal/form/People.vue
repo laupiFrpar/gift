@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import Modal from '@/components/modal';
 
 export default {
@@ -55,14 +54,7 @@ export default {
   },
   methods: {
     handleSubmit() {
-      return axios
-        .post('/api/peoples', this.people)
-        .then((response) => {
-          // this.peoples.push(response.data);
-          this.$emit('submitted', response.data);
-
-          return true;
-        });
+      this.$emit('submit', this.people);
     },
   },
 };

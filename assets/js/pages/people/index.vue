@@ -18,8 +18,7 @@
       @change-page="changePage"
     />
 
-    <!-- Modal -->
-    <people-form-modal @submitted="updateList" />
+    <people-form-modal @submit="handleSubmit" />
   </div>
 </template>
 
@@ -75,8 +74,14 @@ export default {
           this.peoples.splice(index, 1);
         });
     },
-    updateList(people) {
-      this.peoples.push(people);
+    handleSubmit(people) {
+      return axios
+        .post('/api/peoples', people)
+        .then((response) => {
+          this.peoples.push(response.data);
+
+          return true;
+        });
     },
   },
 };
