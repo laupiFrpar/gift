@@ -9,6 +9,6 @@
 import 'styles/app.scss';
 
 import { createApp } from 'vue';
-import TheHeader from '@/components/layout/TheHeader';
+import HeaderLayout from '@/components/layout/TheHeader';
 
-createApp(TheHeader).mount('#header');
+createApp(HeaderLayout).mount('#header');

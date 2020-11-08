@@ -1,4 +1,4 @@
 import { createApp } from 'vue';
-import People from '@/pages/people';
+import PeoplePage from '@/pages/people';
 
-createApp(People).mount('#people-app');
+createApp(PeoplePage).mount('#people-app');

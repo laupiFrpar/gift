@@ -1,5 +1,5 @@
 <template>
-  <modal
+  <base-modal
     centered="true"
     confirm-text="Add"
     title="Add new user"
@@ -33,16 +33,16 @@
         >
       </div>
     </form>
-  </modal>
+  </base-modal>
 </template>
 
 <script>
-import Modal from '@/components/modal';
+import BaseModal from '@/components/modal';
 
 export default {
   name: 'PeopleFormModal',
   components: {
-    Modal,
+    BaseModal,
   },
   data() {
     return {

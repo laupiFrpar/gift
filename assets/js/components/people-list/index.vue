@@ -46,7 +46,7 @@
         </tr>
       </tbody>
     </table>
-    <pagination
+    <pagination-people
       :total-items="totalItems"
       @change-page="changePage"
     />
@@ -54,12 +54,12 @@
 </template>
 
 <script>
-import Pagination from '@/components/layout/ThePagination';
+import PaginationPeople from '@/components/pagination';
 
 export default {
   name: 'PeopleList',
   components: {
-    Pagination,
+    PaginationPeople,
   },
   props: {
     peoples: {

@@ -29,7 +29,7 @@ import PeopleFormModal from '@/components/modal/form/People';
 import PeopleList from '@/components/people-list';
 
 export default {
-  name: 'HomePeople',
+  name: 'PeoplePage',
   components: {
     PeopleFormModal,
     PeopleList,

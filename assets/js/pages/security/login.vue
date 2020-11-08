@@ -1,6 +1,6 @@
 <template>
   <div class="col-lg-4">
-    <form-login
+    <login-form
       @user-authenticated="onUserAuthenticated"
     />
   </div>
@@ -8,12 +8,12 @@
 
 <script>
 import axios from 'axios';
-import FormLogin from '@/components/form/Login';
+import LoginForm from '@/components/form/Login';
 
 export default {
-  name: 'SecurityLogin',
+  name: 'LoginPage',
   components: {
-    FormLogin,
+    LoginForm,
   },
   methods: {
     onUserAuthenticated(userUri) {

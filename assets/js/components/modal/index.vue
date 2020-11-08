@@ -69,7 +69,7 @@
 import { Modal } from 'bootstrap';
 
 export default {
-  name: 'Modal',
+  name: 'BaseModal',
   props: {
     cancelText: {
       type: String,

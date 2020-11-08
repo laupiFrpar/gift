@@ -55,7 +55,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'FormLogin',
+  name: 'LoginForm',
   props: {
     user: {
       type: String,

@@ -55,7 +55,7 @@
 
 <script>
 export default {
-  name: 'TheHeader',
+  name: 'HeaderLayout',
   data() {
     return {
       user: null,
