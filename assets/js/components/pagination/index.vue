@@ -1,5 +1,8 @@
 <template>
-  <nav aria-label="Pagination">
+  <nav
+    v-if="1 < totalPage"
+    aria-label="pagination"
+  >
     <ul class="pagination justify-content-center">
       <li
         :class="{
@@ -46,31 +49,20 @@
 
 <script>
 export default {
-  name: 'BasePagination',
+  name: 'PaginationComponent',
   props: {
-    // currentPage: {
-    //   type: Number,
-    //   default: 1,
-    // },
-    totalItems: {
+    currentPage: {
+      type: Number,
+      default: 1,
+    },
+    totalPage: {
       type: Number,
       required: true,
-    },
-  },
-  data() {
-    return {
-      currentPage: 1,
-    };
-  },
-  computed: {
-    totalPage() {
-      return Math.ceil(this.totalItems / window.lopiConfig.pagination.items_per_page);
     },
   },
   methods: {
     changePage(page) {
       this.$emit('change-page', page);
-      this.currentPage = page;
     },
   },
 };

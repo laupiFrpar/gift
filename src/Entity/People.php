@@ -2,7 +2,9 @@
 
 namespace Lopi\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Lopi\Repository\PeopleRepository;
 
@@ -20,16 +22,12 @@ use Lopi\Repository\PeopleRepository;
  *      security="is_granted('ROLE_USER')",
  *      shortName="peoples",
  * )
+ * @ApiFilter(OrderFilter::class, properties={"id", "firstName", "lastName", "createdAt"})
  * @ORM\Entity(repositoryClass=PeopleRepository::class)
  */
 class People
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use ResourceTrait;
 
     /**
      * @ORM\Column(type="string", length=255)

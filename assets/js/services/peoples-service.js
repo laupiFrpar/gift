@@ -8,5 +8,5 @@ export function fetchPeoples(page) {
     page = 1;
   }
 
-  return axios.get(`/api/peoples?page=${page}`);
+  return axios.get(`/api/peoples?page=${page}&order[createdAt]=desc`);
 }

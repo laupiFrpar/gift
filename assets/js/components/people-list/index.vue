@@ -14,7 +14,7 @@
       </thead>
       <tbody v-if="peoples.length">
         <tr
-          v-for="(people, index) in peoples"
+          v-for="(people) in peoples"
           :key="people['@id']"
         >
           <td>{{ people.firstName }}</td>
@@ -31,7 +31,7 @@
             <button
               type="button"
               class="btn btn-danger"
-              @click="remove(index)"
+              @click="remove(people['@id'])"
             >
               <i class="fas fa-trash" />
             </button>
@@ -46,40 +46,24 @@
         </tr>
       </tbody>
     </table>
-    <pagination-people
-      :total-items="totalItems"
-      @change-page="changePage"
-    />
   </div>
 </template>
 
 <script>
-import PaginationPeople from '@/components/pagination';
-
 export default {
   name: 'PeopleList',
-  components: {
-    PaginationPeople,
-  },
   props: {
     peoples: {
       type: Array,
       required: true,
     },
-    totalItems: {
-      type: Number,
-      required: true,
-    },
   },
   methods: {
-    changePage(page) {
-      this.$emit('change-page', page);
-    },
     edit(peopleId) {
-      console.log(`Not implemented yet - edit ${peopleId}`);
+      this.$emit('edit-people', peopleId);
     },
-    remove(index) {
-      this.$emit('remove-people', index);
+    remove(peopleId) {
+      this.$emit('remove-people', peopleId);
     },
   },
 };
