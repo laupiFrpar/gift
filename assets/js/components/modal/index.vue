@@ -30,6 +30,7 @@
               class="btn-close"
               data-dismiss="modal"
               aria-label="Close"
+              @click="close"
             />
           </slot>
         </div>
@@ -179,23 +180,23 @@ export default {
   mounted() {
     this.$el
       .addEventListener('show.bs.modal', () => {
-        this.$emit('modal-show');
+        this.$emit('show');
       });
     this.$el
       .addEventListener('shown.bs.modal', () => {
-        this.$emit('modal-shown');
+        this.$emit('shown');
       });
     this.$el
       .addEventListener('hide.bs.modal', () => {
-        this.$emit('modal-hide');
+        this.$emit('hide');
       });
     this.$el
       .addEventListener('hidden.bs.modal', () => {
-        this.$emit('modal-hidden');
+        this.$emit('hidden');
       });
     this.$el
       .addEventListener('hidePrevented.bs.modal', () => {
-        this.$emit('modal-hide-prevented');
+        this.$emit('hide-prevented');
       });
 
     const modal = new Modal(
@@ -218,6 +219,9 @@ export default {
   methods: {
     cancel() {
       this.$emit('cancel');
+    },
+    close() {
+      this.$emit('close');
     },
     confirm() {
       this.$emit('confirm');

@@ -1,7 +1,7 @@
 <template>
   <base-modal
     id="people-form-modal"
-    centered="true"
+    :centered="true"
     confirm-text="Add"
     title="Add new user"
     @confirm="handleSubmit"
