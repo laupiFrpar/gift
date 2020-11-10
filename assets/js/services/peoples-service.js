@@ -10,3 +10,7 @@ export function fetchPeoples(page) {
 
   return axios.get(`/api/peoples?page=${page}&order[createdAt]=desc`);
 }
+
+export function fetchPeople(peopleId) {
+  return axios.get(peopleId);
+}

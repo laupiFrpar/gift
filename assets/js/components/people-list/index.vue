@@ -60,10 +60,10 @@ export default {
   },
   methods: {
     edit(peopleId) {
-      this.$emit('edit-people', peopleId);
+      this.$emit('edit', peopleId);
     },
     remove(peopleId) {
-      this.$emit('remove-people', peopleId);
+      this.$emit('remove', peopleId);
     },
   },
 };

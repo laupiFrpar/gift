@@ -10,12 +10,17 @@
         Add
       </button>
     </nav>
-    <people-form-modal @submit="handleSubmit" />
+    <people-form-modal
+      :people-id="peopleId"
+      @created="created"
+      @hide="hide"
+      @updated="updated"
+    />
 
     <people-list
       :peoples="peoples"
-      @edit-people="edit"
-      @remove-people="remove"
+      @edit="edit"
+      @remove="remove"
     />
 
     <pagination-component
@@ -28,6 +33,7 @@
 
 <script>
 import axios from 'axios';
+import { Modal } from 'bootstrap';
 import { fetchPeoples } from '@/services/peoples-service';
 import PeopleFormModal from '@/components/modal/form/People';
 import PeopleList from '@/components/people-list';
@@ -44,6 +50,7 @@ export default {
     return {
       currentPage: 1,
       peoples: [],
+      peopleId: null,
       totalItems: 0,
     };
   },
@@ -56,8 +63,12 @@ export default {
     this.loadPeoples(this.currentPage);
   },
   methods: {
-    edit(peopleId) {
-      console.log(`Not implemented yet - edit ${peopleId}`);
+    async edit(peopleId) {
+      this.peopleId = peopleId;
+
+      Modal
+        .getInstance(document.getElementById('people-form-modal'))
+        .show();
     },
     async loadPeoples(page) {
       // this.loading = true;
@@ -88,12 +99,15 @@ export default {
           this.loadPeoples(this.currentPage);
         });
     },
-    handleSubmit(people) {
-      axios
-        .post('/api/peoples', people)
-        .then(() => {
-          this.loadPeoples(this.currentPage);
-        });
+    created() {
+      this.loadPeoples(this.currentPage);
+    },
+    updated() {
+      this.loadPeoples(this.currentPage);
+      // this.peopleId = null;
+    },
+    hide() {
+      this.peopleId = null;
     },
   },
 };
