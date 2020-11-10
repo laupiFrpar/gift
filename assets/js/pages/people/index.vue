@@ -17,10 +17,15 @@
       @updated="updated"
     />
 
+    <alert-modal
+      message="Are you sure to remove this people ?"
+      @confirm="remove"
+    />
+
     <people-list
       :peoples="peoples"
       @edit="edit"
-      @remove="remove"
+      @remove="removalRequest"
     />
 
     <pagination-component
@@ -35,6 +40,7 @@
 import axios from 'axios';
 import { Modal } from 'bootstrap';
 import { fetchPeoples } from '@/services/peoples-service';
+import AlertModal from '@/components/modal/alert';
 import PeopleFormModal from '@/components/modal/form/People';
 import PeopleList from '@/components/people-list';
 import PaginationComponent from '@/components/pagination';
@@ -42,6 +48,7 @@ import PaginationComponent from '@/components/pagination';
 export default {
   name: 'PeoplePage',
   components: {
+    AlertModal,
     PaginationComponent,
     PeopleFormModal,
     PeopleList,
@@ -92,11 +99,22 @@ export default {
         this.loadPeoples(this.currentPage);
       }
     },
-    remove(peopleId) {
+    removalRequest(peopleId) {
+      this.peopleId = peopleId;
+      Modal.getInstance(document.getElementById('alert-modal')).show();
+    },
+    remove() {
       axios
-        .delete(peopleId)
+        .delete(this.peopleId)
         .then(() => {
           this.loadPeoples(this.currentPage);
+          return true;
+        })
+        .catch(() => {
+          // Do nothing
+        })
+        .then(() => {
+          this.peopleId = null;
         });
     },
     created() {
@@ -104,7 +122,6 @@ export default {
     },
     updated() {
       this.loadPeoples(this.currentPage);
-      // this.peopleId = null;
     },
     hide() {
       this.peopleId = null;

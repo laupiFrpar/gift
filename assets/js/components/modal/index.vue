@@ -49,14 +49,14 @@
               data-dismiss="modal"
               @click="cancel"
             >
-              {{ cancelText }}
+              {{ cancelButtonText }}
             </button>
             <button
               type="submit"
-              class="btn btn-primary"
+              :class="confirmButtonClass"
               @click="confirm"
             >
-              {{ confirmText }}
+              {{ confirmButtonText }}
             </button>
           </slot>
         </div>
@@ -72,7 +72,7 @@ import { Modal } from 'bootstrap';
 export default {
   name: 'BaseModal',
   props: {
-    cancelText: {
+    cancelButtonText: {
       type: String,
       default: 'Cancel',
     },
@@ -88,9 +88,13 @@ export default {
       type: Boolean,
       default: true,
     },
-    confirmText: {
+    confirmButtonText: {
       type: String,
       default: 'Confirm',
+    },
+    confirmButtonType: {
+      type: String,
+      default: 'primary',
     },
     extraLarge: {
       type: Boolean,
@@ -175,6 +179,9 @@ export default {
         'modal-fullscreen-lg-down': this.fullscreenLarge,
         'modal-fullscreen-xl-down': this.fullscreenExtraLarge,
       };
+    },
+    confirmButtonClass() {
+      return `btn btn-${this.confirmButtonType}`;
     },
   },
   mounted() {
