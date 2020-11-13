@@ -13,6 +13,12 @@
               href="/peoples"
             >Peoples</a>
           </li>
+          <li class="nav-item">
+            <a
+              :class="[activeClass('people'), 'nav-link']"
+              href="/gifts"
+            >Gifts</a>
+          </li>
         </ul>
         <ul class="navbar-nav ml-auto">
           <li
