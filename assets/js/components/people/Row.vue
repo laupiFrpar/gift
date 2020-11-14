@@ -1,12 +1,12 @@
 <template>
   <tr>
-    <td>{{ gift.title }}</td>
-    <td>{{ price }}</td>
+    <td>{{ people.firstName }}</td>
+    <td>{{ people.lastName }}</td>
     <td>
       <button
         type="button"
         class="btn btn-primary"
-        @click="edit(gift['@id'])"
+        @click="edit(people['@id'])"
       >
         <i class="fas fa-edit" />
       </button>
@@ -14,7 +14,7 @@
       <button
         type="button"
         class="btn btn-danger"
-        @click="remove(gift['@id'])"
+        @click="remove(people['@id'])"
       >
         <i class="fas fa-trash" />
       </button>
@@ -23,28 +23,25 @@
 </template>
 
 <script>
-import formatPrice from '@/helpers/format-price';
-
 export default {
-  name: 'Row',
+  name: 'RowPeople',
   props: {
-    gift: {
+    people: {
       type: Array,
       required: true,
     },
   },
-  computed: {
-    price() {
-      return formatPrice(this.gift.price);
-    },
-  },
   methods: {
     edit(id) {
-      this.$emit('edit-gift', id);
+      this.$emit('edit-people', id);
     },
     remove(id) {
-      this.$emit('remove-gift', id);
+      this.$emit('remove-people', id);
     },
   },
 };
 </script>
+
+<style>
+
+</style>

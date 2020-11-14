@@ -17,6 +17,8 @@
           v-for="gift in gifts"
           :key="gift['@id']"
           :gift="gift"
+          @edit-gift="edit"
+          @remove-gift="remove"
         />
       </tbody>
       <tbody v-else>

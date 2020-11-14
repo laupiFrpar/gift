@@ -41,9 +41,9 @@ import axios from 'axios';
 import { Modal } from 'bootstrap';
 import { fetchPeoples } from '@/services/peoples-service';
 import AlertModal from '@/components/modal/alert';
-import PeopleFormModal from '@/components/modal/form/People';
-import PeopleList from '@/components/people-list';
 import PaginationComponent from '@/components/pagination';
+import PeopleFormModal from '@/components/people/FormModal';
+import PeopleList from '@/components/people/List';
 
 export default {
   name: 'PeoplePage',

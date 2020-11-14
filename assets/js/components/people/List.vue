@@ -13,30 +13,13 @@
         </tr>
       </thead>
       <tbody v-if="peoples.length">
-        <tr
-          v-for="(people) in peoples"
+        <row
+          v-for="people in peoples"
           :key="people['@id']"
-        >
-          <td>{{ people.firstName }}</td>
-          <td>{{ people.lastName }}</td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-primary"
-              @click="edit(people['@id'])"
-            >
-              <i class="fas fa-edit" />
-            </button>
-            &nbsp;
-            <button
-              type="button"
-              class="btn btn-danger"
-              @click="remove(people['@id'])"
-            >
-              <i class="fas fa-trash" />
-            </button>
-          </td>
-        </tr>
+          :people="people"
+          @edit-people="edit"
+          @remove-people="remove"
+        />
       </tbody>
       <tbody v-else>
         <tr class="text-center">
@@ -50,8 +33,13 @@
 </template>
 
 <script>
+import Row from '@/components/people/Row';
+
 export default {
   name: 'PeopleList',
+  components: {
+    Row,
+  },
   props: {
     peoples: {
       type: Array,
