@@ -15,7 +15,7 @@
           </li>
           <li class="nav-item">
             <a
-              :class="[activeClass('people'), 'nav-link']"
+              :class="[activeClass('gift'), 'nav-link']"
               href="/gifts"
             >Gifts</a>
           </li>
