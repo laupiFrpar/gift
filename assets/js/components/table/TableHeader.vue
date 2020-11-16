@@ -1,10 +1,10 @@
 <template>
   <tr>
     <th
-      v-for="(name, index) in columns"
+      v-for="(field, index) in fields"
       :key="index"
     >
-      {{ name }}
+      {{ field.label }}
     </th>
     <th>&nbsp;</th>
   </tr>
@@ -12,9 +12,9 @@
 
 <script>
 export default {
-  name: 'RowHeader',
+  name: 'TableHeader',
   props: {
-    columns: {
+    fields: {
       type: Array,
       required: true,
     },

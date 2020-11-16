@@ -2,12 +2,12 @@
   <div class="table-responsive-sm">
     <table class="table table-hover table-sm">
       <thead>
-        <row-header
-          :columns="['First name', 'Last name']"
+        <table-header
+          :headers="['First name', 'Last name']"
         />
       </thead>
       <tbody v-if="peoples.length">
-        <row
+        <table-row
           v-for="people in peoples"
           :key="people['@id']"
           :item="people"
@@ -16,7 +16,7 @@
         >
           <td>{{ people.firstName }}</td>
           <td>{{ people.lastName }}</td>
-        </row>
+        </table-row>
       </tbody>
       <tbody v-else>
         <tr class="text-center">
@@ -30,14 +30,14 @@
 </template>
 
 <script>
-import Row from '@/components/table/Row';
-import RowHeader from '../table/RowHeader.vue';
+import TableHeader from '@/components/table/TableHeader.vue';
+import TableRow from '@/components/table/TableRow';
 
 export default {
   name: 'PeopleList',
   components: {
-    Row,
-    RowHeader,
+    TableHeader,
+    TableRow,
   },
   props: {
     peoples: {

@@ -22,10 +22,12 @@
       @confirm="remove"
     />
 
-    <people-list
-      :peoples="peoples"
-      @edit="edit"
-      @remove="removalRequest"
+    <table-component
+      empty-message="No people"
+      :fields="fields"
+      :items="peoples"
+      @edit-item="edit"
+      @remove-item="removalRequest"
     />
 
     <pagination-component
@@ -43,7 +45,7 @@ import { fetchPeoples } from '@/services/peoples-service';
 import AlertModal from '@/components/modal/alert';
 import PaginationComponent from '@/components/pagination';
 import PeopleFormModal from '@/components/people/FormModal';
-import PeopleList from '@/components/people/List';
+import TableComponent from '@/components/table';
 
 export default {
   name: 'PeoplePage',
@@ -51,11 +53,21 @@ export default {
     AlertModal,
     PaginationComponent,
     PeopleFormModal,
-    PeopleList,
+    TableComponent,
   },
   data() {
     return {
       currentPage: 1,
+      fields: [
+        {
+          key: 'firstName',
+          label: 'First name',
+        },
+        {
+          key: 'lastName',
+          label: 'Last name',
+        },
+      ],
       peoples: [],
       peopleId: null,
       totalItems: 0,

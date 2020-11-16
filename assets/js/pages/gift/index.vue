@@ -22,10 +22,12 @@
       @confirm="remove"
     />
 
-    <gift-list
-      :gifts="gifts"
-      @edit="edit"
-      @remove="removalRequest"
+    <table-component
+      empty-message="No gift"
+      :fields="fields"
+      :items="items"
+      @edit-item="edit"
+      @remove-item="removalRequest"
     />
 
     <pagination-component
@@ -40,18 +42,19 @@
 import axios from 'axios';
 import { Modal } from 'bootstrap';
 import { fetchGifts } from '@/services/gifts-service';
+import formatPrice from '@/helpers/format-price.js';
 import AlertModal from '@/components/modal/alert';
 import PaginationComponent from '@/components/pagination';
+import TableComponent from '@/components/table';
 import GiftFormModal from '@/components/gift/FormModal';
-import GiftList from '@/components/gift/List';
 
 export default {
   name: 'GiftPage',
   components: {
     AlertModal,
     PaginationComponent,
+    TableComponent,
     GiftFormModal,
-    GiftList,
   },
   data() {
     return {
@@ -59,18 +62,37 @@ export default {
       gifts: [],
       giftId: null,
       totalItems: 0,
+      fields: [
+        {
+          key: 'title',
+          label: 'Label',
+        },
+        {
+          key: 'formattedPrice',
+          label: 'Price',
+        },
+      ],
     };
   },
   computed: {
     totalPage() {
       return Math.ceil(this.totalItems / window.lopiConfig.pagination.items_per_page);
     },
+    items() {
+      return this.gifts.map(
+        (gift) => {
+          gift.formattedPrice = this.price(gift.price);
+
+          return gift;
+        },
+      );
+    },
   },
   created() {
     this.loadgifts(this.currentPage);
   },
   methods: {
-    async edit(giftId) {
+    edit(giftId) {
       this.giftId = giftId;
 
       Modal
@@ -98,6 +120,9 @@ export default {
         this.currentPage -= 1;
         this.loadgifts(this.currentPage);
       }
+    },
+    price(price) {
+      return formatPrice(price);
     },
     removalRequest(giftId) {
       this.giftId = giftId;
