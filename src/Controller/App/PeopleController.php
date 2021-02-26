@@ -14,8 +14,6 @@ class PeopleController extends AbstractController
      */
     public function index(PeopleRepository $peopleRepository): Response
     {
-        return $this->render('app/people/index.html.twig', [
-            'controller_name' => 'PeopleController',
-        ]);
+        return $this->render('app/people/index.html.twig');
     }
 }

@@ -1,6 +1,7 @@
 api_platform:
   collection:
     pagination:
+      client_enabled: true
       items_per_page: '%lopi.pagination.items_per_page%'
   mapping:
     paths: ['%kernel.project_dir%/src/Entity']

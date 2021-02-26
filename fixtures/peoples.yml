@@ -1,0 +1,4 @@
+Lopi\Entity\People:
+  people{1..15}:
+    firstName: '<firstName()>'
+    lastName: '<lastName()>'

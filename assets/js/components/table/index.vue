@@ -1,25 +1,31 @@
 <template>
   <div class="table-responsive-sm">
-    <table class="table table-hover table-sm">
+    <table
+      class="table table-hover table-sm"
+    >
       <thead>
         <table-header
           :fields="fields"
         />
       </thead>
-      <tbody v-if="items.length">
+      <!-- <tbody v-if="items.length"> -->
+      <tbody>
         <table-row
           v-for="item in items"
+          v-show="!loading && items.length > 0"
           :key="item['@id']"
           :item="item"
           :fields="fields"
           @edit-item="editItem"
           @remove-item="removeItem"
         />
-      </tbody>
-      <tbody v-else>
-        <tr class="text-center">
+        <tr
+          v-show="loading || items.length === 0"
+          class="text-center"
+        >
           <td colspan="3">
-            {{ emptyMessage }}
+            <loading v-show="loading" />
+            <span v-show="!loading && items.length === 0">{{ emptyMessage }}</span>
           </td>
         </tr>
       </tbody>
@@ -28,12 +34,14 @@
 </template>
 
 <script>
+import Loading from '@/components/loading';
 import TableRow from '@/components/table/TableRow';
 import TableHeader from '@/components/table/TableHeader';
 
 export default {
   name: 'TableComponent',
   components: {
+    Loading,
     TableHeader,
     TableRow,
   },
@@ -48,6 +56,10 @@ export default {
     },
     items: {
       type: Array,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
       required: true,
     },
   },

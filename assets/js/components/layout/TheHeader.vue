@@ -34,15 +34,24 @@
               aria-haspopup="true"
               aria-expanded="false"
             >{{ user.email }}</a>
-            <div
+            <ul
               class="dropdown-menu"
               aria-labelledby="navbar-user-dropdown"
             >
-              <a
-                href="/api/logout"
-                class="dropdown-item"
-              >Log out</a>
-            </div>
+              <li>
+                <a
+                  href="/my-profile"
+                  class="dropdown-item"
+                >My profile</a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a
+                  href="/api/logout"
+                  class="dropdown-item"
+                >Log out</a>
+              </li>
+            </ul>
           </li>
           <li
             v-else

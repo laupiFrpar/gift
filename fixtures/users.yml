@@ -1,13 +1,18 @@
 parameters:
   password: $2y$13$Vg52Vi/lTMUNvdjiRi3PQOugsTp3RbKzUfrjSa1QNbwKVxETASykq
 
+Lopi\Entity\People:
+  people_user_{1..5}:
+    firstName: '<firstName()>'
+    lastName: '<lastName()>'
+
 Lopi\Entity\User:
   admin:
     email: admin@gift.wip
     roles: ['ROLE_ADMIN']
     password: <{password}>
-
-Lopi\Entity\People:
-  people{1..10}:
-    firstName: '<firstName()>'
-    lastName: '<lastName()>'
+  user{@people_user_*}:
+    email: <safeemail()>
+    roles: ['ROLE_ADMIN']
+    password: <{password}>
+    people: <current()>

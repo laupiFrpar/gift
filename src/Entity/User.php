@@ -67,6 +67,12 @@ class User implements UserInterface, ResourceInterface
      */
     private $plainPassword;
 
+    /**
+     * @Groups({"user:read","user:write"})
+     * @ORM\OneToOne(targetEntity=People::class, cascade={"persist", "remove"})
+     */
+    private $people;
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -148,6 +154,18 @@ class User implements UserInterface, ResourceInterface
     public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    public function getPeople(): ?People
+    {
+        return $this->people;
+    }
+
+    public function setPeople(?People $people): self
+    {
+        $this->people = $people;
 
         return $this;
     }

@@ -26,6 +26,7 @@
       empty-message="No gift"
       :fields="fields"
       :items="items"
+      :loading="loading"
       @edit-item="edit"
       @remove-item="removalRequest"
     />
@@ -43,7 +44,7 @@ import axios from 'axios';
 import { Modal } from 'bootstrap';
 import { fetchGifts } from '@/services/gifts-service';
 import formatPrice from '@/helpers/format-price.js';
-import AlertModal from '@/components/modal/alert';
+import AlertModal from '@/components/modal/Alert';
 import PaginationComponent from '@/components/pagination';
 import TableComponent from '@/components/table';
 import GiftFormModal from '@/components/gift/FormModal';
@@ -61,6 +62,7 @@ export default {
       currentPage: 1,
       gifts: [],
       giftId: null,
+      loading: false,
       totalItems: 0,
       fields: [
         {
@@ -100,14 +102,14 @@ export default {
         .show();
     },
     async loadgifts(page) {
-      // this.loading = true;
+      this.loading = true;
       let response;
 
       try {
         response = await fetchGifts(page);
-        // this.loading = false;
+        this.loading = false;
       } catch (e) {
-        // this.loading = false;
+        this.loading = false;
 
         return;
       }

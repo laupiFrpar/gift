@@ -14,8 +14,8 @@ Encore
   // public path used by the web server to access the output path
   .setPublicPath('/build')
 
-  // only needed for CDN's or sub-directory deploy
-  //.setManifestKeyPrefix('build/')
+/* only needed for CDN's or sub-directory deploy
+  //.setManifestKeyPrefix('build/')*/
 
   /*
    * ENTRY CONFIG
@@ -27,10 +27,11 @@ Encore
    * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
    */
   .addEntry('app', './assets/js/app.js')
-  .addEntry('login', './assets/js/login.js')
-  .addEntry('home', './assets/js/home.js')
-  .addEntry('people', './assets/js/people.js')
   .addEntry('gift', './assets/js/gift.js')
+  .addEntry('home', './assets/js/home.js')
+  .addEntry('login', './assets/js/login.js')
+  .addEntry('my-profile', './assets/js/my-profile.js')
+  .addEntry('people', './assets/js/people.js')
 
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   .splitEntryChunks()
@@ -55,6 +56,7 @@ Encore
   .cleanupOutputBeforeBuild()
   .enableBuildNotifications()
   .enableSourceMaps(!Encore.isProduction())
+
   // enables hashed filenames (e.g. app.abc123.css)
   .enableVersioning(Encore.isProduction())
 
@@ -64,6 +66,13 @@ Encore
     config.corejs = 3;
   })
 
+/* .copyFiles({
+  //   from: './assets/images',
+  //   to: Encore.isProduction()
+  //     ? 'images/[path][name].[hash:8].[ext]'
+  //     : 'images/[path][name].[ext]',
+  // })*/
+
   // enable .vue file processing
   .enableVueLoader(() => {}, {
     version: 3,
@@ -72,6 +81,7 @@ Encore
   // enables Sass/SCSS support
   .enableSassLoader()
 
+/*
   // uncomment if you use TypeScript
   //.enableTypeScriptLoader()
 
@@ -81,10 +91,7 @@ Encore
 
   // uncomment if you're having problems with a jQuery plugin
   //.autoProvidejQuery()
-
-  // uncomment if you use API Platform Admin (composer req api-admin)
-  //.enableReactPreset()
-  //.addEntry('admin', './assets/admin.js')
+*/
 ;
 
 if (!Encore.isProduction()) {

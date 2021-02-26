@@ -26,6 +26,7 @@
       empty-message="No people"
       :fields="fields"
       :items="peoples"
+      :loading="loading"
       @edit-item="edit"
       @remove-item="removalRequest"
     />
@@ -42,7 +43,7 @@
 import axios from 'axios';
 import { Modal } from 'bootstrap';
 import { fetchPeoples } from '@/services/peoples-service';
-import AlertModal from '@/components/modal/alert';
+import AlertModal from '@/components/modal/Alert';
 import PaginationComponent from '@/components/pagination';
 import PeopleFormModal from '@/components/people/FormModal';
 import TableComponent from '@/components/table';
@@ -68,6 +69,7 @@ export default {
           label: 'Last name',
         },
       ],
+      loading: false,
       peoples: [],
       peopleId: null,
       totalItems: 0,
@@ -90,14 +92,14 @@ export default {
         .show();
     },
     async loadPeoples(page) {
-      // this.loading = true;
+      this.loading = true;
       let response;
 
       try {
         response = await fetchPeoples(page);
-        // this.loading = false;
+        this.loading = false;
       } catch (e) {
-        // this.loading = false;
+        this.loading = false;
 
         return;
       }
