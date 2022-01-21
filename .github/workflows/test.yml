@@ -12,7 +12,7 @@ jobs:
     # https://hub.docker.com/_/ubuntu/
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         php-versions: ['8.0', '8.1']
     steps:
@@ -26,11 +26,10 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
+          extensions: ctype, dom, filter, iconv, intl, json, mbstring, pdo, pdo_sqlite, xml
         env:
           update: true
 
-      # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
       - name: Validate composer files
         run: composer validate
 
@@ -46,11 +45,14 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      # - name: Check requirements
-      #   run: vendor/bin/requirements-checker
+      # —— Check requirements‍️ ——————————————————————————————————————————————————
+      - name: Check requirements
+        run: vendor/bin/requirements-checker
 
       - name: Prepare Tests
-        run: bin/console doctrine:database:create --env=test && bin/console doctrine:schema:create --env=test
+        run: |
+          bin/console doctrine:database:create --env=test
+          bin/console doctrine:schema:create --env=test
 
       - name: Test
-        run: APP_ENV=test bin/phpunit --stop-on-failure
+        run: APP_ENV=test bin/phpunit
