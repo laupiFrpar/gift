@@ -1,15 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
+<ruleset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Lopi"
+    xsi:noNamespaceSchemaLocation="phpcs.xsd"
+>
+    <description>Project coding standard</description>
 
-<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <!-- <config name="ignore_warnings_on_exit" value="1" /> -->
 
-    <file>src/</file>
+    <file>src</file>
 
-    <arg name="basepath" value="."/>
-    <arg name="cache" value=".phpcs-cache"/>
-    <arg name="colors"/>
+    <!-- <exclude-pattern>src/Bundle/**/tests/</exclude-pattern> -->
+    <!-- <exclude-pattern>tests/</exclude-pattern> -->
+    <exclude-pattern>migrations/</exclude-pattern>
+
     <arg name="extensions" value="php"/>
+    <arg name="warning-severity" value="1"/>
+    <arg name="error-severity" value="1"/>
+    <arg name="colors"/>
 
-    <rule ref="PSR2"/>
+    <!--
+        s: show rule name
+        p: show progression
+    -->
+    <arg value="sp"/>
 
+    <rule ref="Symfony">
+        <exclude name="Squiz.Strings.ConcatenationSpacing.PaddingFound" />
+        <exclude name="Symfony.Commenting.License.Warning" />
+        <exclude name="Symfony.Functions.Arguments.Invalid" />
+    </rule>
+
+    <rule ref="PSR12" />
+
+    <rule ref="Symfony.Commenting.ClassComment.Missing">
+        <type>warning</type>
+    </rule>
 </ruleset>

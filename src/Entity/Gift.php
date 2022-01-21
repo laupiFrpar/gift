@@ -30,6 +30,7 @@ class Gift implements ResourceInterface
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\NotBlank()
      * @Assert\Length(
      *     max=255,
@@ -41,15 +42,24 @@ class Gift implements ResourceInterface
      * @var float
      *
      * @ORM\Column(type="float")
+     *
      * @Assert\NotBlank()
      */
     private $price;
 
+    /**
+     * @return ?string
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     *
+     * @return self
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -57,11 +67,19 @@ class Gift implements ResourceInterface
         return $this;
     }
 
+    /**
+     * @return ?float
+     */
     public function getPrice(): ?float
     {
         return $this->price;
     }
 
+    /**
+     * @param float $price
+     *
+     * @return self
+     */
     public function setPrice(float $price): self
     {
         $this->price = $price;

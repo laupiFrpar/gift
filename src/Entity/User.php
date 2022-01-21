@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Lopi\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -29,9 +30,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     denormalizationContext={"groups"={"user:write"}},
  * )
  * @UniqueEntity(fields={"email"})
+ *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User implements UserInterface, ResourceInterface
+class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUserInterface
 {
     use ResourceTrait;
 
@@ -39,7 +41,9 @@ class User implements UserInterface, ResourceInterface
      * @var string
      *
      * @ORM\Column(type="string", length=180, unique=true)
+     *
      * @Groups({"user:read", "user:write"})
+     *
      * @Assert\NotBlank()
      */
     private $email;
@@ -62,22 +66,33 @@ class User implements UserInterface, ResourceInterface
      * @var string|null
      *
      * @Groups({"user:write"})
+     *
      * @SerializedName("password")
+     *
      * @Assert\NotBlank(groups={"create"})
      */
     private $plainPassword;
 
     /**
      * @Groups({"user:read","user:write"})
+     *
      * @ORM\OneToOne(targetEntity=People::class, cascade={"persist", "remove"})
      */
     private $people;
 
+    /**
+     * @return ?string
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     *
+     * @return self
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -86,9 +101,17 @@ class User implements UserInterface, ResourceInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    /**
      * A visual identifier that represents this user.
      *
-     * @see UserInterface
+     * {@inheritdoc}
      */
     public function getUsername(): string
     {
@@ -97,6 +120,8 @@ class User implements UserInterface, ResourceInterface
 
     /**
      * @see UserInterface
+     *
+     * {@inheritdoc}
      */
     public function getRoles(): array
     {
@@ -107,6 +132,11 @@ class User implements UserInterface, ResourceInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array $roles
+     *
+     * @return self
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -116,12 +146,19 @@ class User implements UserInterface, ResourceInterface
 
     /**
      * @see UserInterface
+     *
+     * {@inheritdoc}
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
+    /**
+     * @param string $password
+     *
+     * @return self
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -131,8 +168,10 @@ class User implements UserInterface, ResourceInterface
 
     /**
      * @see UserInterface
+     *
+     * {@inheritdoc}
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return null;
     }
@@ -146,11 +185,19 @@ class User implements UserInterface, ResourceInterface
         $this->plainPassword = null;
     }
 
+    /**
+     * @return ?string
+     */
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
+    /**
+     * @param string $plainPassword
+     *
+     * @return self
+     */
     public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
@@ -158,11 +205,19 @@ class User implements UserInterface, ResourceInterface
         return $this;
     }
 
+    /**
+     * @return ?People
+     */
     public function getPeople(): ?People
     {
         return $this->people;
     }
 
+    /**
+     * @param ?People $people
+     *
+     * @return self
+     */
     public function setPeople(?People $people): self
     {
         $this->people = $people;

@@ -1,53 +1,60 @@
 {
-    "name": "lopi/gift",
-    "description": "A project to manage gifts",
     "type": "project",
     "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "require": {
-        "php": ">=7.2.5",
+        "php": ">=8.0.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "api-platform/core": "^2.5",
-        "composer/package-versions-deprecated": "^1.11",
+        "api-platform/core": "^2.6",
         "doctrine/annotations": "^1.0",
-        "doctrine/doctrine-bundle": "^2.1",
-        "doctrine/doctrine-migrations-bundle": "^3.0",
-        "doctrine/orm": "^2.7",
-        "nelmio/cors-bundle": "^2.1",
-        "phpdocumentor/reflection-docblock": "^5.2",
-        "sensio/framework-extra-bundle": "^5.6",
-        "stof/doctrine-extensions-bundle": "^1.5",
-        "symfony/asset": "5.1.*",
-        "symfony/console": "5.1.*",
-        "symfony/dotenv": "5.1.*",
-        "symfony/expression-language": "5.1.*",
-        "symfony/flex": "^1.3.1",
-        "symfony/framework-bundle": "5.1.*",
-        "symfony/monolog-bundle": "^3.6",
-        "symfony/property-access": "5.1.*",
-        "symfony/property-info": "5.1.*",
-        "symfony/security-bundle": "5.1.*",
-        "symfony/serializer": "5.1.*",
-        "symfony/twig-bundle": "5.1.*",
-        "symfony/validator": "5.1.*",
-        "symfony/webpack-encore-bundle": "^1.7",
-        "symfony/yaml": "5.1.*"
-    },
-    "require-dev": {
-        "hautelook/alice-bundle": "^2.8",
-        "phpstan/phpstan-symfony": "^0.12.10",
-        "symfony/browser-kit": "^5.1",
-        "symfony/css-selector": "^5.1",
-        "symfony/debug-bundle": "^5.1",
-        "symfony/http-client": "5.1.*",
-        "symfony/maker-bundle": "^1.22",
-        "symfony/phpunit-bridge": "^5.1",
-        "symfony/requirements-checker": "^2.0",
-        "symfony/stopwatch": "^5.1",
-        "symfony/var-dumper": "^5.1",
-        "symfony/web-profiler-bundle": "^5.1"
+        "doctrine/doctrine-bundle": "^2.5",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.11",
+        "nelmio/cors-bundle": "^2.2",
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "phpstan/phpdoc-parser": "^1.2",
+        "sensio/framework-extra-bundle": "^6.1",
+        "stof/doctrine-extensions-bundle": "^1.7",
+        "symfony/asset": "6.0.*",
+        "symfony/console": "6.0.*",
+        "symfony/doctrine-messenger": "6.0.*",
+        "symfony/dotenv": "6.0.*",
+        "symfony/expression-language": "6.0.*",
+        "symfony/flex": "^2",
+        "symfony/form": "6.0.*",
+        "symfony/framework-bundle": "6.0.*",
+        "symfony/http-client": "6.0.*",
+        "symfony/intl": "6.0.*",
+        "symfony/mailer": "6.0.*",
+        "symfony/mime": "6.0.*",
+        "symfony/monolog-bundle": "^3.0",
+        "symfony/notifier": "6.0.*",
+        "symfony/process": "6.0.*",
+        "symfony/property-access": "6.0.*",
+        "symfony/property-info": "6.0.*",
+        "symfony/proxy-manager-bridge": "6.0.*",
+        "symfony/runtime": "6.0.*",
+        "symfony/security-bundle": "6.0.*",
+        "symfony/serializer": "6.0.*",
+        "symfony/string": "6.0.*",
+        "symfony/translation": "6.0.*",
+        "symfony/twig-bundle": "6.0.*",
+        "symfony/validator": "6.0.*",
+        "symfony/web-link": "6.0.*",
+        "symfony/webapp-meta": "^1.0",
+        "symfony/webpack-encore-bundle": "^1.13",
+        "symfony/yaml": "6.0.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
         "optimize-autoloader": true,
         "preferred-install": {
             "*": "dist"
@@ -65,19 +72,17 @@
         }
     },
     "replace": {
-        "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
         "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php56": "*"
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*"
     },
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd",
-            "requirements-checker": "script"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
@@ -92,7 +97,19 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.1.*"
+            "require": "6.0.*"
         }
+    },
+    "require-dev": {
+        "hautelook/alice-bundle": "^2.10",
+        "phpstan/phpstan-symfony": "^1.1",
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "6.0.*",
+        "symfony/css-selector": "6.0.*",
+        "symfony/debug-bundle": "6.0.*",
+        "symfony/maker-bundle": "^1.0",
+        "symfony/phpunit-bridge": "^6.0",
+        "symfony/stopwatch": "6.0.*",
+        "symfony/web-profiler-bundle": "6.0.*"
     }
 }

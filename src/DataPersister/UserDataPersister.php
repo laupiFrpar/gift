@@ -5,8 +5,11 @@ namespace Lopi\DataPersister;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Lopi\Entity\User;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+/**
+ * @author Pierre-Louis Launay <lopi@marinlaunay.fr>
+ */
 class UserDataPersister implements DataPersisterInterface
 {
     /**
@@ -15,20 +18,26 @@ class UserDataPersister implements DataPersisterInterface
     private $entityManager;
 
     /**
-     * @var UserPasswordEncoderInterface
+     * @var UserPasswordHasherInterface
      */
-    private $userPasswordEncoder;
+    private $userPasswordHasher;
 
+    /**
+     * @param EntityManagerInterface      $entityManager
+     * @param UserPasswordHasherInterface $userPasswordHasher
+     */
     public function __construct(
         EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $userPasswordEncoder
+        UserPasswordHasherInterface $userPasswordHasher
     ) {
         $this->entityManager = $entityManager;
-        $this->userPasswordEncoder = $userPasswordEncoder;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
     /**
      * @param User $data
+     *
+     * @return bool
      */
     public function supports($data): bool
     {
@@ -37,18 +46,25 @@ class UserDataPersister implements DataPersisterInterface
 
     /**
      * @param User $data
+     *
+     * @return object|void
      */
     public function persist($data)
     {
         if ($data->getPlainPassword()) {
             $data->setPassword(
-                $this->userPasswordEncoder->encodePassword($data, $data->getPlainPassword())
+                $this->userPasswordHasher->hashPassword(
+                    $data,
+                    $data->getPlainPassword()
+                )
             );
             $data->eraseCredentials();
         }
 
         $this->entityManager->persist($data);
         $this->entityManager->flush();
+
+        return $data;
     }
 
     /**

@@ -14,14 +14,11 @@ Encore
   // public path used by the web server to access the output path
   .setPublicPath('/build')
 
-/* only needed for CDN's or sub-directory deploy
-  //.setManifestKeyPrefix('build/')*/
+  // only needed for CDN's or sub-directory deploy
+  //.setManifestKeyPrefix('build/')
 
   /*
    * ENTRY CONFIG
-   *
-   * Add 1 entry for each "page" of your app
-   * (including one that's included on every page - e.g. "app")
    *
    * Each entry will result in one JavaScript file (e.g. app.js)
    * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
@@ -32,6 +29,9 @@ Encore
   .addEntry('login', './assets/js/login.js')
   .addEntry('my-profile', './assets/js/my-profile.js')
   .addEntry('people', './assets/js/people.js')
+
+  // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
+  // .enableStimulusBridge('./assets/controllers.json')
 
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   .splitEntryChunks()
@@ -60,30 +60,29 @@ Encore
   // enables hashed filenames (e.g. app.abc123.css)
   .enableVersioning(Encore.isProduction())
 
+  .configureBabel((config) => {
+    config.plugins.push('@babel/plugin-proposal-class-properties');
+  })
+
   // enables @babel/preset-env polyfills
   .configureBabelPresetEnv((config) => {
     config.useBuiltIns = 'usage';
     config.corejs = 3;
   })
 
-/* .copyFiles({
-  //   from: './assets/images',
-  //   to: Encore.isProduction()
-  //     ? 'images/[path][name].[hash:8].[ext]'
-  //     : 'images/[path][name].[ext]',
-  // })*/
-
   // enable .vue file processing
-  .enableVueLoader(() => {}, {
+  .enableVueLoader(() => { }, {
     version: 3,
   })
 
   // enables Sass/SCSS support
   .enableSassLoader()
 
-/*
   // uncomment if you use TypeScript
   //.enableTypeScriptLoader()
+
+  // uncomment if you use React
+  //.enableReactPreset()
 
   // uncomment to get integrity="..." attributes on your script & link tags
   // requires WebpackEncoreBundle 1.4 or higher
@@ -91,7 +90,6 @@ Encore
 
   // uncomment if you're having problems with a jQuery plugin
   //.autoProvidejQuery()
-*/
 ;
 
 if (!Encore.isProduction()) {

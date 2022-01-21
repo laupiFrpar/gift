@@ -6,13 +6,22 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use Lopi\Entity\User;
 
+/**
+ * @author Pierre-Louis Launay <lopi@marinlaunay.fr>
+ */
 class ApiTestCase extends BaseApiTestCase
 {
-    protected function createUser(
-        string $email,
-        string $password,
-        array $roles = ['ROLE_USER']
-    ): User {
+    /**
+     * Create an user and return it
+     *
+     * @param string $email
+     * @param string $password
+     * @param array  $roles
+     *
+     * @return User
+     */
+    protected function createUser(string $email, string $password, array $roles = ['ROLE_USER']): User
+    {
         $user = new User();
         $user
             ->setEmail($email)
@@ -20,30 +29,50 @@ class ApiTestCase extends BaseApiTestCase
             // ->setUsername(substr($email, 0, strpos($email, '@')))
         ;
 
-        $encoded = self::$container
-            ->get('security.password_encoder')
-            ->encodePassword($user, $password)
+        $encoded = $this->getContainer()
+            ->get('security.password_hasher')
+            ->hashPassword($user, $password)
         ;
         $user->setPassword($encoded);
 
-        $em = self::$container->get('doctrine')->getManager();
+        $em = $this->getContainer()->get('doctrine')->getManager();
         $em->persist($user);
         $em->flush();
 
         return $user;
     }
 
+    /**
+     * Login an user and assert if it succeed
+     *
+     * @param Client $client
+     * @param string $email
+     * @param string $password
+     */
     protected function logIn(Client $client, string $email, string $password)
     {
         $client->request('POST', '/api/login', [
             'json' => [
                 'email' => $email,
-                'password' => $password
+                'password' => $password,
             ],
         ]);
         $this->assertResponseStatusCodeSame(204);
     }
 
+    /**
+     * 1. Create an user
+     * 2. Login
+     * 3. Assert if the login is succeed
+     * 4. Return the created user
+     *
+     * @param Client $client
+     * @param string $email
+     * @param string $password
+     * @param array  $roles
+     *
+     * @return User
+     */
     protected function createUserAndLogIn(
         Client $client,
         string $email,
