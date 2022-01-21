@@ -27,7 +27,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
-          tools: phpcs, phpstan
+          tools: phpcs
         env:
           update: true
 
@@ -43,7 +43,11 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install global dependencies
-        run: composer global require phpstan/extension-installer phpunit/phpunit
+      #   run: composer global require phpstan/extension-installer phpunit/phpunit
+        run: composer global require escapestudios/symfony2-coding-standard
+
+      - name: Add Symfony Coding Standard into phpcs
+        run: phpcs --config-set installed_paths ~/.composer/vendor/escapestudios/symfony2-coding-standard
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
