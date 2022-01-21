@@ -1,5 +1,5 @@
 # https://help.github.com/en/actions
-name: Code style
+name: Check code style
 on:
   push:
     branches: [master]
@@ -31,9 +31,6 @@ jobs:
         env:
           update: true
 
-      - name: Validate composer files
-        run: composer validate
-
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v2
@@ -42,18 +39,13 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Install global dependencies
-      #   run: composer global require phpstan/extension-installer phpunit/phpunit
-        run: composer global require escapestudios/symfony2-coding-standard
+      - name: Install Symfony Coding Standard
+        run: |
+          composer global require escapestudios/symfony2-coding-standard
+          phpcs --config-set installed_paths ~/.composer/vendor/escapestudios/symfony2-coding-standard
 
-      - name: Add Symfony Coding Standard into phpcs
-        run: phpcs --config-set installed_paths ~/.composer/vendor/escapestudios/symfony2-coding-standard
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+      # - name: Install vendors
+      #   run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Sniff code
         run: phpcs
-
-      # - name: Analyse code
-      #   run: phpstan analyse -c phpstan.neon --no-progress
