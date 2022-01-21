@@ -1,4 +1,6 @@
 {
+    "name": "lopi/gift",
+    "description": "Manage gifts",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
