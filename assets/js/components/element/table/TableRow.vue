@@ -7,28 +7,28 @@
       {{ item[field.key] }}
     </td>
     <td>
-      <button
-        type="button"
-        class="btn btn-primary"
-        @click="edit()"
-      >
+      <button-component @click="edit()">
         <i class="fas fa-edit" />
-      </button>
+      </button-component>
       &nbsp;
-      <button
-        type="button"
-        class="btn btn-danger"
+      <button-component
+        variant="danger"
         @click="remove()"
       >
         <i class="fas fa-trash" />
-      </button>
+      </button-component>
     </td>
   </tr>
 </template>
 
 <script>
+import ButtonComponent from '@/components/element/button';
+
 export default {
   name: 'TableRow',
+  components: {
+    ButtonComponent,
+  },
   props: {
     fields: {
       type: Array,

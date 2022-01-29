@@ -1,16 +1,15 @@
 <template>
   <div class="mt-4">
     <nav class="navbar">
-      <button
-        class="btn btn-primary"
-        type="button"
-        data-toggle="modal"
-        data-target="#people-form-modal"
+      <button-component
+        data-bs-toggle="modal"
+        data-bs-target="#people-form-modal"
       >
         Add
-      </button>
+      </button-component>
     </nav>
-    <people-form-modal
+
+    <people-modal-form
       :people-id="peopleId"
       @created="created"
       @hide="hide"
@@ -42,18 +41,22 @@
 <script>
 import axios from 'axios';
 import { Modal } from 'bootstrap';
-import { fetchPeoples } from '@/services/peoples-service';
+
 import AlertModal from '@/components/modal/Alert';
+import ButtonComponent from '@/components/element/button';
 import PaginationComponent from '@/components/pagination';
-import PeopleFormModal from '@/components/people/FormModal';
-import TableComponent from '@/components/table';
+import PeopleModalForm from '@/components/peoples/ModalForm';
+import TableComponent from '@/components/element/table';
+
+import { fetchPeoples } from '@/services/peoples-service';
 
 export default {
   name: 'PeoplePage',
   components: {
     AlertModal,
+    ButtonComponent,
     PaginationComponent,
-    PeopleFormModal,
+    PeopleModalForm,
     TableComponent,
   },
   data() {

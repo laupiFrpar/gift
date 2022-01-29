@@ -1,5 +1,5 @@
 <template>
-  <base-modal
+  <modal-component
     id="people-form-modal"
     :centered="true"
     :confirm-text="buttonText"
@@ -8,46 +8,38 @@
     @hide="hide"
     @shown="shown"
   >
-    <form>
-      <div class="mb-3">
-        <label
-          for="first-name"
-          class="form-label"
-        >First name</label>
-        <input
-          id="first-name"
-          v-model="people.firstName"
-          type="text"
-          class="form-control"
-          name="first-name"
-        >
-      </div>
-      <div class="mb-3">
-        <label
-          for="last-name"
-          class="form-label"
-        >Last name</label>
-        <input
-          id="last-name"
-          v-model="people.lastName"
-          type="text"
-          class="form-control"
-          name="last-name"
-        >
-      </div>
-    </form>
-  </base-modal>
+    <form-component>
+      <text-input
+        id="first-name"
+        label="First name"
+        :value="people.firstName"
+        :inline="false"
+        @updated-value="onUpdatedFirstName"
+      />
+      <text-input
+        id="last-name"
+        label="Last name"
+        :value="people.lastName"
+        :inline="false"
+        @updated-value="onUpdatedLastName"
+      />
+    </form-component>
+  </modal-component>
 </template>
 
 <script>
 import axios from 'axios';
 import { fetchPeople } from '@/services/peoples-service.js';
-import BaseModal from '@/components/modal';
+import FormComponent from '@/components/element/form';
+import TextInput from '@/components/element/form/input/Text';
+import ModalComponent from '@/components/modal';
 
 export default {
-  name: 'PeopleFormModal',
+  name: 'PeopleModalForm',
   components: {
-    BaseModal,
+    FormComponent,
+    TextInput,
+    ModalComponent,
   },
   props: {
     peopleId: {
@@ -95,6 +87,7 @@ export default {
       }
     },
     hide() {
+      console.log('people modal hide');
       this.people = {
         firstName: null,
         lastName: null,
@@ -106,6 +99,12 @@ export default {
         const response = await fetchPeople(this.peopleId);
         this.people = response.data;
       }
+    },
+    onUpdatedFirstName(event) {
+      this.people.firstName = event.value;
+    },
+    onUpdatedLastName(event) {
+      this.people.lastName = event.value;
     },
   },
 };

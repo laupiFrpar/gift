@@ -8,7 +8,7 @@
 
 <script>
 import axios from 'axios';
-import LoginForm from '@/components/form/Login';
+import LoginForm from '@/components/security/LoginForm';
 
 export default {
   name: 'LoginPage',

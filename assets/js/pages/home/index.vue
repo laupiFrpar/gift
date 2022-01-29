@@ -1,5 +1,5 @@
 <template>
-  <div>Home</div>
+  <h1>Welcome to Gift App</h1>
 </template>
 
 <script>

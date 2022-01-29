@@ -4,48 +4,17 @@
       <h2 class="text-center">
         My profile
       </h2>
-      <div class="text-center">
-        <loading
-          v-show="isLoading"
-        />
-      </div>
-      <form
-        v-show="!isLoading"
-        class="border p-3 rounded"
-        @submit.prevent="submit"
+      <form-component
+        :error="error"
+        @submitted="handleSubmit"
       >
-        <div class="mb-3 row">
-          <label
-            for="staticEmail"
-            class="col-sm-4 col-form-label"
-          >Email</label>
-          <div class="col-sm-8">
-            <input
-              id="staticEmail"
-              type="text"
-              readonly="readonly"
-              class="form-control-plaintext"
-              :value="user.email"
-            >
-          </div>
-        </div>
-        <div class="mb-3 row">
-          <label
-            for="inputPassword"
-            class="col-sm-4 col-form-label"
-          >
-            Password
-          </label>
-          <div class="col-sm-8">
-            <input
-              id="inputPassword"
-              v-model="user.password"
-              type="password"
-              class="form-control"
-            >
-          </div>
-        </div>
-        <div
+        <email-input
+          id="email-readonly"
+          :value="user.email"
+          :readonly="true"
+        />
+        <password-input @updated-value="onUpdatedPassword" />
+        <!-- <div
           v-if="null === user.people"
           class="mb-3 row"
         >
@@ -72,93 +41,103 @@
               </option>
             </select>
           </div>
-        </div>
-        <div class="mb-3 row">
-          <label
-            for="first-name"
-            class="col-sm-4 form-label"
-          >First name</label>
-          <div class="col-sm-8">
-            <input
-              id="first-name"
-              v-model="user.people.firstName"
-              type="text"
-              class="form-control"
-              name="first-name"
-            >
-          </div>
-        </div>
-        <div class="mb-3 row">
-          <label
-            for="last-name"
-            class="col-sm-4 form-label"
-          >Last name</label>
-          <div class="col-sm-8">
-            <input
-              id="last-name"
-              v-model="user.people.lastName"
-              type="text"
-              class="form-control"
-              name="last-name"
-            >
-          </div>
-        </div>
+        </div> -->
+        <text-input
+          id="firstname"
+          label="First name"
+          placeholder="Tony"
+          @updated-value="onUpdatedFirstNameInput"
+        />
+        <text-input
+          id="lastname"
+          label="Last name"
+          placeholder="Stark"
+          @updated-value="onUpdatedLastNameInput"
+        />
         <div class="text-center">
-          <button
-            :class="{ disabled: isLoading }"
-            type="submit"
-            class="btn btn-primary"
-          >
+          <submit-button :is-loading="isLoading">
             Save
-          </button>
+          </submit-button>
         </div>
-      </form>
+      </form-component>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import { fetchPeoples } from '@/services/peoples-service.js';
 
-import Loading from '@/components/loading';
+import EmailInput from '@/components/element/form/input/Email';
+import PasswordInput from '@/components/element/form/input/Password';
+import TextInput from '@/components/element/form/input/Text';
+import SubmitButton from '@/components/element/button/Submit';
+import FormComponent from '@/components/element/form';
+// import { fetchPeoples } from '@/services/peoples-service.js';
 
 export default {
   name: 'MyProfilePage',
   components: {
-    Loading,
+    FormComponent,
+    EmailInput,
+    PasswordInput,
+    SubmitButton,
+    TextInput,
   },
   data() {
     return {
       isLoading: false,
-      peoples: [],
+      // peoples: [],
       user: window.user,
     };
   },
   created() {
-    this.loadPeoples(this.currentPage);
+    // if (!this.user.people) {
+    //   this.user.people = {
+    //     firstName: null,
+    //     lasteName: null,
+    //   };
+    // }
+    // this.loadPeoples(this.currentPage);
   },
   methods: {
-    async loadPeoples() {
-      let response;
-
-      try {
-        response = await fetchPeoples();
-      } catch (e) {
-        return;
-      }
-
-      this.peoples = response.data['hydra:member'];
+    onUpdatedPasswordInput(event) {
+      this.user.password = event.value;
     },
-    submit() {
+    onUpdatedFirstNameInput(event) {
+      this.user.people.firstName = event.value;
+    },
+    onUpdatedLastNameInput(event) {
+      this.user.people.lastName = event.value;
+    },
+    // async loadPeoples() {
+    //   let response;
+
+    //   try {
+    //     response = await fetchPeoples();
+    //   } catch (e) {
+    //     return;
+    //   }
+
+    //   this.peoples = response.data['hydra:member'];
+    // },
+    handleSubmit() {
       this.isLoading = true;
       axios
         .put(this.user['@id'], {
           password: this.user.password,
+          people: this.user.people,
         })
         .then(() => {
           this.isLoading = false;
           this.user.password = null;
+        }).catch((error) => {
+          if (error.response.data.error) {
+            this.error = error.response.data.error;
+          } else {
+            this.error = 'Unknown error';
+          }
+        }).finally(() => {
+          this.isLoading = false;
         });
     },
   },

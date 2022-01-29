@@ -11,4 +11,6 @@ import 'styles/app.scss';
 import { createApp } from 'vue';
 import HeaderLayout from '@/components/layout/TheHeader';
 
+require('bootstrap/js/dist/dropdown');
+
 createApp(HeaderLayout).mount('#header');

@@ -24,11 +24,10 @@
                 {{ title }}
               </slot>
             </h4>
-            <button
+            <button-component
               v-if="showCloseButton"
-              type="button"
-              class="btn-close"
-              data-dismiss="modal"
+              variant="close"
+              data-bs-dismiss="modal"
               aria-label="Close"
               @click="close"
             />
@@ -42,22 +41,21 @@
           class="modal-footer"
         >
           <slot name="footer">
-            <button
+            <button-component
               v-if="showCancelButton"
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
+              variant="secondary"
+              data-bs-dismiss="modal"
               @click="cancel"
             >
               {{ cancelButtonText }}
-            </button>
-            <button
+            </button-component>
+            <button-component
               type="submit"
-              :class="confirmButtonClass"
+              :variant="confirmButtonType"
               @click="confirm"
             >
               {{ confirmButtonText }}
-            </button>
+            </button-component>
           </slot>
         </div>
       </div>
@@ -69,8 +67,13 @@
 // Inspired by https://github.com/hharchani/vuejs-bootstrap-modal
 import { Modal } from 'bootstrap';
 
+import ButtonComponent from '@/components/element/button';
+
 export default {
-  name: 'BaseModal',
+  name: 'ModalComponent',
+  components: {
+    ButtonComponent,
+  },
   props: {
     cancelButtonText: {
       type: String,
@@ -180,9 +183,6 @@ export default {
         'modal-fullscreen-xl-down': this.fullscreenExtraLarge,
       };
     },
-    confirmButtonClass() {
-      return `btn btn-${this.confirmButtonType}`;
-    },
   },
   mounted() {
     this.$el
@@ -195,6 +195,7 @@ export default {
       });
     this.$el
       .addEventListener('hide.bs.modal', () => {
+        console.log('hide event');
         this.$emit('hide');
       });
     this.$el

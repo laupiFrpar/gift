@@ -1,21 +1,21 @@
 <template>
-  <base-modal
+  <modal-component
     id="alert-modal"
     :centered="true"
     confirm-button-text="Remove"
     confirm-button-type="danger"
   >
     {{ message }}
-  </base-modal>
+  </modal-component>
 </template>
 
 <script>
-import BaseModal from '@/components/modal';
+import ModalComponent from '@/components/modal';
 
 export default {
   name: 'AlertModal',
   components: {
-    BaseModal,
+    ModalComponent,
   },
   props: {
     message: {
