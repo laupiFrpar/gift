@@ -1,16 +1,14 @@
 <template>
   <div class="mt-4">
     <nav class="navbar">
-      <button
-        class="btn btn-primary"
-        type="button"
-        data-toggle="modal"
-        data-target="#gift-form-modal"
+      <button-component
+        data-bs-toggle="modal"
+        data-bs-target="#gift-form-modal"
       >
         Add
-      </button>
+      </button-component>
     </nav>
-    <gift-form-modal
+    <gift-modal-form
       :gift-id="giftId"
       @created="created"
       @hide="hide"
@@ -44,18 +42,21 @@ import axios from 'axios';
 import { Modal } from 'bootstrap';
 import { fetchGifts } from '@/services/gifts-service';
 import formatPrice from '@/helpers/format-price.js';
+
 import AlertModal from '@/components/modal/Alert';
+import ButtonComponent from '@/components/element/button';
+import TableComponent from '@/components/element/table';
 import PaginationComponent from '@/components/pagination';
-import TableComponent from '@/components/table';
-import GiftFormModal from '@/components/gift/FormModal';
+import GiftModalForm from '@/components/gift/ModalForm';
 
 export default {
   name: 'GiftPage',
   components: {
     AlertModal,
+    ButtonComponent,
     PaginationComponent,
     TableComponent,
-    GiftFormModal,
+    GiftModalForm,
   },
   data() {
     return {

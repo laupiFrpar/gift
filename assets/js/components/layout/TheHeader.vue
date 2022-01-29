@@ -2,7 +2,7 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <span class="navbar-brand h1">Gift</span>
+        <a class="navbar-brand h1" href="/">Gift App</a>
         <ul
           v-if="user"
           class="navbar-nav mr-auto"
@@ -30,7 +30,7 @@
               class="nav-link dropdown-toggle"
               href="#"
               role="button"
-              data-toggle="dropdown"
+              data-bs-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
             >{{ user.email }}</a>
@@ -57,10 +57,9 @@
             v-else
             class="nav-item active"
           >
-            <a
-              class="btn btn-primary"
-              href="/login"
-            >Login</a>
+            <link-button href="/login">
+              Login
+            </link-button>
           </li>
         </ul>
       </div>
@@ -69,8 +68,13 @@
 </template>
 
 <script>
+import LinkButton from '@/components/element/button/Link';
+
 export default {
   name: 'HeaderLayout',
+  components: {
+    LinkButton,
+  },
   data() {
     return {
       user: null,

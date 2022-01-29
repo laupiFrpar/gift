@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'Loading',
+  name: 'TheLoading',
 };
 </script>
 
@@ -47,5 +47,4 @@ export default {
     opacity: 0;
   }
 }
-
 </style>

@@ -1,61 +1,46 @@
 <template>
-  <form
+  <form-component
     class="border bg-white rounded p-3"
-    @submit.prevent="handleSubmit"
+    title="Gift"
+    :error="error"
+    @submitted="handleSubmit"
   >
-    <h2 class="text-center">
-      Gift
-    </h2>
-    <div
-      v-if="error"
-      class="alert alert-danger"
-      role="alert"
-    >
-      {{ error }}
-    </div>
-    <div class="mb-3">
-      <label
-        for="email"
-        class="form-label"
-      >Email address</label>
-      <input
-        id="email"
-        v-model="email"
-        type="email"
-        class="form-control"
-        placeholder="Enter email"
-      >
-    </div>
-    <div class="mb-3">
-      <label
-        for="password"
-        class="form-label"
-      >Password</label>
-      <input
-        id="password"
-        v-model="password"
-        type="password"
-        class="form-control"
-        placeholder="Password"
-      >
-    </div>
+    <email-input
+      placeholder="Enter email"
+      :inline="false"
+      @updated-value="onUpdatedEmail"
+    />
+    <password-input
+      placeholder="Password"
+      :inline="false"
+      @updated-value="onUpdatedPassword"
+    />
     <div class="text-center">
-      <button
-        :class="{ disabled: isLoading }"
-        type="submit"
-        class="btn btn-primary"
+      <submit-button
+        :is-loading="isLoading"
+        label-loading="Logging..."
       >
-        Log in
-      </button>
+        Log In
+      </submit-button>
     </div>
-  </form>
+  </form-component>
 </template>
 
 <script>
 import axios from 'axios';
+import FormComponent from '@/components/element/form';
+import EmailInput from '@/components/element/form/input/Email';
+import PasswordInput from '@/components/element/form/input/Password';
+import SubmitButton from '@/components/element/button/Submit';
 
 export default {
   name: 'LoginForm',
+  components: {
+    FormComponent,
+    EmailInput,
+    PasswordInput,
+    SubmitButton,
+  },
   props: {
     user: {
       type: String,
@@ -92,6 +77,12 @@ export default {
         }).finally(() => {
           this.isLoading = false;
         });
+    },
+    onUpdatedEmail(event) {
+      this.email = event.value;
+    },
+    onUpdatedPassword(event) {
+      this.password = event.value;
     },
   },
 };

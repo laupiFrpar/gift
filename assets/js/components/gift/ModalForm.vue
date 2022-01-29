@@ -1,5 +1,5 @@
 <template>
-  <base-modal
+  <modal-component
     id="gift-form-modal"
     :centered="true"
     :confirm-text="buttonText"
@@ -8,49 +8,39 @@
     @hide="hide"
     @shown="shown"
   >
-    <form>
-      <div class="mb-3">
-        <label
-          for="label"
-          class="form-label"
-        >Label</label>
-        <input
-          id="label"
-          v-model="gift.title"
-          type="text"
-          class="form-control"
-          name="label"
-        >
-      </div>
-      <div class="mb-3">
-        <label
-          for="price"
-          class="form-label"
-        >Price</label>
-        <div class="input-group">
-          <span class="input-group-text">€</span>
-          <input
-            id="price"
-            v-model="gift.price"
-            type="number"
-            class="form-control"
-            name="price"
-          >
-        </div>
-      </div>
-    </form>
-  </base-modal>
+    <form-component>
+      <text-input
+        id="title"
+        label="Title"
+        :inline="false"
+        :value="gift.title"
+        @updated-value="onUpdatedTitle"
+      />
+      <price-input
+        id="price"
+        label="Price"
+        :value="gift.price"
+        @updated-value="onUpdatedPrice"
+      />
+    </form-component>
+  </modal-component>
 </template>
 
 <script>
 import axios from 'axios';
 import { fetchGift } from '@/services/gifts-service.js';
-import BaseModal from '@/components/modal';
+import FormComponent from '@/components/element/form';
+import TextInput from '@/components/element/form/input/Text';
+import PriceInput from '@/components/element/form/input/Price';
+import ModalComponent from '@/components/modal';
 
 export default {
   name: 'GiftFormModal',
   components: {
-    BaseModal,
+    FormComponent,
+    TextInput,
+    PriceInput,
+    ModalComponent,
   },
   props: {
     giftId: {
@@ -114,6 +104,12 @@ export default {
         const response = await fetchGift(this.giftId);
         this.gift = response.data;
       }
+    },
+    onUpdatedTitle(event) {
+      this.gift.title = event.value;
+    },
+    onUpdatedPrice(event) {
+      this.gift.price = event.value;
     },
   },
 };

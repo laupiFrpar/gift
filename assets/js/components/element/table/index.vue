@@ -1,12 +1,8 @@
 <template>
   <div class="table-responsive-sm">
-    <table
-      class="table table-hover table-sm"
-    >
+    <table class="table table-hover table-sm">
       <thead>
-        <table-header
-          :fields="fields"
-        />
+        <table-header :fields="fields" />
       </thead>
       <!-- <tbody v-if="items.length"> -->
       <tbody>
@@ -35,8 +31,8 @@
 
 <script>
 import Loading from '@/components/loading';
-import TableRow from '@/components/table/TableRow';
-import TableHeader from '@/components/table/TableHeader';
+import TableRow from '@/components/element/table/TableRow';
+import TableHeader from '@/components/element/table/TableHeader';
 
 export default {
   name: 'TableComponent',
