@@ -1,6 +1,9 @@
 parameters:
     checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
     level: 7
+    bootstrapFiles:
+        - vendor/autoload.php
     paths:
         - src
         - tests
