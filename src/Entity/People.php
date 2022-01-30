@@ -32,11 +32,15 @@ class People
     use ResourceTrait;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $firstName;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $lastName;

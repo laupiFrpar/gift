@@ -74,6 +74,8 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
     private $plainPassword;
 
     /**
+     * @var People
+     *
      * @Groups({"user:read","user:write"})
      *
      * @ORM\OneToOne(targetEntity=People::class, cascade={"persist", "remove"})

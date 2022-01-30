@@ -49,7 +49,7 @@ class ApiTestCase extends BaseApiTestCase
      * @param string $email
      * @param string $password
      */
-    protected function logIn(Client $client, string $email, string $password)
+    protected function logIn(Client $client, string $email, string $password): void
     {
         $client->request('POST', '/api/login', [
             'json' => [

@@ -11,6 +11,9 @@ use Twig\TwigFilter;
  */
 class SerializerExtension extends AbstractExtension
 {
+    /**
+     * @var SerializerInterface
+     */
     private $serializer;
 
     /**

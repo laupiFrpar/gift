@@ -7,6 +7,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use Doctrine\ORM\QueryBuilder;
 use Lopi\Entity\People;
+use Lopi\Entity\User;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -14,6 +15,9 @@ use Symfony\Component\Security\Core\Security;
  */
 class PeopleExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
+    /**
+     * @var Security
+     */
     private $security;
 
     /**
@@ -32,7 +36,7 @@ class PeopleExtension implements QueryCollectionExtensionInterface, QueryItemExt
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         string $operationName = null
-    ) {
+    ): void {
         $this->addWhere($queryBuilder, $resourceClass);
     }
 
@@ -46,7 +50,7 @@ class PeopleExtension implements QueryCollectionExtensionInterface, QueryItemExt
         array $identifiers,
         string $operationName = null,
         array $context = []
-    ) {
+    ): void {
         // code...
     }
 
@@ -54,16 +58,22 @@ class PeopleExtension implements QueryCollectionExtensionInterface, QueryItemExt
      * @param QueryBuilder $queryBuilder
      * @param string       $resourceClass
      */
-    private function addWhere(QueryBuilder $queryBuilder, string $resourceClass)
+    private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
-        if (People::class !== $resourceClass || !$this->security->getUser()->getPeople()) {
+        $user = $this->security->getUser();
+
+        if (!$user
+            || !($user instanceof User)
+            || People::class !== $resourceClass
+            || !$user->getPeople()
+        ) {
             return;
         }
 
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder
             ->andWhere($rootAlias . ' <> :people')
-            ->setParameter('people', $this->security->getUser()->getPeople())
+            ->setParameter('people', $user->getPeople())
         ;
     }
 }

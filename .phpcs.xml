@@ -31,7 +31,9 @@
         <exclude name="Symfony.Functions.Arguments.Invalid" />
     </rule>
 
-    <rule ref="PSR12" />
+    <rule ref="PSR12">
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine" />
+    </rule>
 
     <rule ref="Symfony.Commenting.ClassComment.Missing">
         <type>warning</type>
