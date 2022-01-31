@@ -12,7 +12,7 @@
 
 ## Install
 
-```
+```sh
 composer install
 yarn install
 
@@ -23,7 +23,7 @@ bin/console doctrine:migrations:migrate
 
 ## Run
 
-```
+```sh
 docker-composer up -d
 symfony server:start -d
 yarn watch
@@ -39,6 +39,6 @@ You can connect on `https://127.0.0.1`.
 
 ## Test
 
-```
+```sh
 bin/phpunit run
 ```
