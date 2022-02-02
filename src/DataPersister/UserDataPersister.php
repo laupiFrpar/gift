@@ -3,7 +3,6 @@
 namespace Lopi\DataPersister;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Lopi\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -13,9 +12,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserDataPersister implements DataPersisterInterface
 {
     /**
-     * @var EntityManagerInterface
+     * @var DataPersisterInterface
      */
-    private $entityManager;
+    private $decoratedDataPersister;
 
     /**
      * @var UserPasswordHasherInterface
@@ -23,21 +22,19 @@ class UserDataPersister implements DataPersisterInterface
     private $userPasswordHasher;
 
     /**
-     * @param EntityManagerInterface      $entityManager
+     * @param DataPersisterInterface      $decoratedDataPersister
      * @param UserPasswordHasherInterface $userPasswordHasher
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
+        DataPersisterInterface $decoratedDataPersister,
         UserPasswordHasherInterface $userPasswordHasher
     ) {
-        $this->entityManager = $entityManager;
+        $this->decoratedDataPersister = $decoratedDataPersister;
         $this->userPasswordHasher = $userPasswordHasher;
     }
 
     /**
-     * @param User $data
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function supports($data): bool
     {
@@ -45,9 +42,9 @@ class UserDataPersister implements DataPersisterInterface
     }
 
     /**
-     * @param User $data
+     * {@inheritdoc}
      *
-     * @return object|void
+     * @return void
      */
     public function persist($data)
     {
@@ -61,18 +58,14 @@ class UserDataPersister implements DataPersisterInterface
             $data->eraseCredentials();
         }
 
-        $this->entityManager->persist($data);
-        $this->entityManager->flush();
-
-        return $data;
+        return $this->decoratedDataPersister->persist($data);
     }
 
     /**
-     * @param User $data
+     * {@inheritdoc}
      */
     public function remove($data): void
     {
-        $this->entityManager->remove($data);
-        $this->entityManager->flush();
+        $this->decoratedDataPersister->remove($data);
     }
 }
