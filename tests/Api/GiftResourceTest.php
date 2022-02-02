@@ -2,7 +2,6 @@
 
 namespace Lopi\Tests\Api;
 
-use Lopi\Factory\UserFactory;
 use Lopi\Test\ApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,21 +12,24 @@ use Symfony\Component\HttpFoundation\Response;
 class GiftResourceTest extends ApiTestCase
 {
     /**
-     *
+     * @group public
      */
-    public function testCreateGift(): void
+    public function testCreateAsPublic(): void
     {
-        $client = self::createClient();
-
-        $client->request('POST', '/api/gifts', [
+        $this->client->request('POST', '/api/gifts', [
             'json' => [],
         ]);
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
+    }
 
-        $user = UserFactory::new()->create();
-        $this->logIn($client, $user);
+    /**
+     * @group authenticated
+     */
+    public function testCreateAsAuthenticated(): void
+    {
+        $this->logInAsUser();
 
-        $client->request('POST', '/api/gifts', [
+        $this->client->request('POST', '/api/gifts', [
             'json' => [],
         ]);
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
