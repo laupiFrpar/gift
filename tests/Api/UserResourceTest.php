@@ -2,7 +2,7 @@
 
 namespace Lopi\Test\Api;
 
-use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
+use Lopi\Factory\UserFactory;
 use Lopi\Test\ApiTestCase;
 
 /**
@@ -10,12 +10,10 @@ use Lopi\Test\ApiTestCase;
  */
 class UserResourceTest extends ApiTestCase
 {
-    use ReloadDatabaseTrait;
-
     /**
      *
      */
-    public function testCreateAsAdmin()
+    public function testCreateAsAdmin(): void
     {
         $client = self::createClient();
         $this->createUserAndLogIn($client, 'admin@gift.test', 'admin', ['ROLE_ADMIN']);
@@ -34,7 +32,7 @@ class UserResourceTest extends ApiTestCase
     /**
      *
      */
-    public function testCreateWithoutPasswordAsAdmin()
+    public function testCreateWithoutPasswordAsAdmin(): void
     {
         $client = self::createClient();
         $this->createUserAndLogIn($client, 'admin@gift.test', 'admin', ['ROLE_ADMIN']);
@@ -51,7 +49,7 @@ class UserResourceTest extends ApiTestCase
     /**
      *
      */
-    public function testCreateAsAnonymously()
+    public function testCreateAsAnonymously(): void
     {
         $client = self::createClient();
 
@@ -67,7 +65,7 @@ class UserResourceTest extends ApiTestCase
     /**
      *
      */
-    public function testCreateAsUser()
+    public function testCreateAsUser(): void
     {
         $client = self::createClient();
         $this->createUserAndLogIn($client, 'admin@gift.test', 'admin');
@@ -84,29 +82,36 @@ class UserResourceTest extends ApiTestCase
     /**
      *
      */
-    public function testUpdateAsUser()
+    public function testUpdateAsUser(): void
     {
         $client = self::createClient();
-        $user = $this->createUserAndLogIn($client, 'john.do@gift.test', 'azerty');
+        $user = UserFactory::new()->create();
+        $this->logIn($client, $user);
 
         $client->request('PUT', '/api/users/' . $user->getId(), [
             'json' => [
                 'email' => 'john.doe@gift.test',
+                'roles' => ['ROLE_ADMIN'], // will be ignored
             ],
         ]);
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
                 'email' => 'john.doe@gift.test',
         ]);
+
+        $user->refresh();
+        $this->assertEquals(['ROLE_USER'], $user->getRoles());
     }
 
     /**
      *
      */
-    public function testUpdateAnotherUserAsUser()
+    public function testUpdateAnotherUserAsUser(): void
     {
         $client = self::createClient();
-        $this->createUserAndLogIn($client, 'john.do@gift.test', 'azerty');
+        $user = UserFactory::new()->create();
+        $this->logIn($client, $user);
+
         $user = $this->createUser('unknown@gift.test', 'azerty');
 
         $client->request('PUT', '/api/users/' . $user->getId(), [
@@ -120,11 +125,21 @@ class UserResourceTest extends ApiTestCase
     /**
      *
      */
-    public function testUpdateAnotherUserAsAdmin()
+    public function testUpdateAnotherUserAsAdmin(): void
     {
         $client = self::createClient();
-        $this->createUserAndLogIn($client, 'admin@gift.test', 'admin', ['ROLE_ADMIN']);
-        $user = $this->createUser('unknown@gift.test', 'azerty');
+        $user = UserFactory::new()->create(['email' => 'unknown@gift.test']);
+        $adminUser = UserFactory::new()
+            ->asAdmin()
+            ->create()
+        ;
+        $this->logIn($client, $adminUser);
+
+        $client->request('GET', '/api/users/' . $user->getId());
+        $this->assertJsonContains([
+            'email' => $user->getEmail(),
+            // 'isMe' => false,
+        ]);
 
         $client->request('PUT', '/api/users/' . $user->getId(), [
             'json' => [
@@ -133,7 +148,7 @@ class UserResourceTest extends ApiTestCase
         ]);
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
-                'email' => 'john.doe@gift.test',
+             'email' => 'john.doe@gift.test',
         ]);
     }
 }
