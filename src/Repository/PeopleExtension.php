@@ -62,7 +62,8 @@ class PeopleExtension implements QueryCollectionExtensionInterface, QueryItemExt
     {
         $user = $this->security->getUser();
 
-        if (!$user
+        if (
+            !$user
             || !($user instanceof User)
             || People::class !== $resourceClass
             || !$user->getPeople()
