@@ -3,6 +3,7 @@
 namespace Lopi\Test\Api;
 
 use Lopi\Test\ApiTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Pierre-Louis Launay <lopi@marinlaunay.fr>
@@ -40,7 +41,7 @@ class UserResourceTest extends ApiTestCase
                 'password' => '',
             ],
         ]);
-        $this->assertResponseStatusCodeSame(422);
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -79,7 +80,7 @@ class UserResourceTest extends ApiTestCase
                 'password' => 'azerty',
             ],
         ]);
-        $this->assertResponseStatusCodeSame(401);
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -95,7 +96,7 @@ class UserResourceTest extends ApiTestCase
                 'password' => 'azerty',
             ],
         ]);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
     /**
@@ -134,6 +135,28 @@ class UserResourceTest extends ApiTestCase
                 'email' => 'ironman@avengers.com',
             ],
         ]);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @group admin
+     */
+    public function testRemoveUserAsAdmin(): void
+    {
+        $this->logInAsAdmin();
+        $user = $this->createUser('ironman@avengers.com');
+        $this->client->request('DELETE', '/api/users/' . $user->getId());
+        $this->assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @group user
+     */
+    public function testRemoveUserAsUser(): void
+    {
+        $this->logInAsUser();
+        $user = $this->createUser('ironman@avengers.com');
+        $this->client->request('DELETE', '/api/users/' . $user->getId());
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 }
