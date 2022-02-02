@@ -2,7 +2,7 @@
 
 namespace Lopi\Tests\Api;
 
-use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
+use Lopi\Factory\UserFactory;
 use Lopi\Test\ApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,12 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GiftResourceTest extends ApiTestCase
 {
-    use ReloadDatabaseTrait;
-
     /**
      *
      */
-    public function testCreateGift()
+    public function testCreateGift(): void
     {
         $client = self::createClient();
 
@@ -26,7 +24,8 @@ class GiftResourceTest extends ApiTestCase
         ]);
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
 
-        $this->createUserAndLogIn($client, 'john.doe@example.com', 'azerty');
+        $user = UserFactory::new()->create();
+        $this->logIn($client, $user);
 
         $client->request('POST', '/api/gifts', [
             'json' => [],
