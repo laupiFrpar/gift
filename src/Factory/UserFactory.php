@@ -48,6 +48,11 @@ final class UserFactory extends ModelFactory
         return $this->addState(['roles' => ['ROLE_ADMIN']]);
     }
 
+    public function withPassword(string $plainPassword)
+    {
+        return $this->addState(['password' => $this->passwordHasher->hashPassword(new User(), $plainPassword)]);
+    }
+
     protected function getDefaults(): array
     {
         return [

@@ -2,7 +2,6 @@
 
 namespace Lopi\Test\Api;
 
-use Lopi\Factory\UserFactory;
 use Lopi\Test\ApiTestCase;
 
 /**
@@ -11,35 +10,33 @@ use Lopi\Test\ApiTestCase;
 class UserResourceTest extends ApiTestCase
 {
     /**
-     *
+     * @group admin
      */
     public function testCreateAsAdmin(): void
     {
-        $client = self::createClient();
-        $this->createUserAndLogIn($client, 'admin@gift.test', 'admin', ['ROLE_ADMIN']);
+        $this->logInAsAdmin();
 
-        $client->request('POST', '/api/users', [
+        $this->client->request('POST', '/api/users', [
             'json' => [
-                'email' => 'john.doe@gift.test',
+                'email' => 'ironman@avengers.com',
                 'password' => 'azerty',
             ],
         ]);
         $this->assertResponseStatusCodeSame(201);
 
-        $this->logIn($client, 'john.doe@gift.test', 'azerty');
+        // Check if the user can be logged
+        $this->logIn('ironman@avengers.com', 'azerty');
     }
 
     /**
-     *
+     * @group admin
      */
     public function testCreateWithoutPasswordAsAdmin(): void
     {
-        $client = self::createClient();
-        $this->createUserAndLogIn($client, 'admin@gift.test', 'admin', ['ROLE_ADMIN']);
-
-        $client->request('POST', '/api/users', [
+        $this->logInAsAdmin();
+        $this->client->request('POST', '/api/users', [
             'json' => [
-                'email' => 'john.doe@gift.test',
+                'email' => 'ironman@avengers.com',
                 'password' => '',
             ],
         ]);
@@ -47,15 +44,38 @@ class UserResourceTest extends ApiTestCase
     }
 
     /**
-     *
+     * @group admin
+     */
+    public function testUpdateAnotherUserAsAdmin(): void
+    {
+        $user = $this->createUser('tony.stark@avengers');
+        $this->logInAsAdmin();
+
+        $this->client->request('GET', '/api/users/' . $user->getId());
+        $this->assertJsonContains([
+            'email' => $user->getEmail(),
+            // 'isMe' => false,
+        ]);
+
+        $this->client->request('PUT', '/api/users/' . $user->getId(), [
+            'json' => [
+                'email' => 'ironman@avengers.com',
+            ],
+        ]);
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonContains([
+             'email' => 'ironman@avengers.com',
+        ]);
+    }
+
+    /**
+     * @group public
      */
     public function testCreateAsAnonymously(): void
     {
-        $client = self::createClient();
-
-        $client->request('POST', '/api/users', [
+        $this->client->request('POST', '/api/users', [
             'json' => [
-                'email' => 'john.doe@gift.test',
+                'email' => 'ironman@avengers.com',
                 'password' => 'azerty',
             ],
         ]);
@@ -63,16 +83,15 @@ class UserResourceTest extends ApiTestCase
     }
 
     /**
-     *
+     * @group authenticated
      */
     public function testCreateAsUser(): void
     {
-        $client = self::createClient();
-        $this->createUserAndLogIn($client, 'admin@gift.test', 'admin');
+        $this->logInAsUser();
 
-        $client->request('POST', '/api/users', [
+        $this->client->request('POST', '/api/users', [
             'json' => [
-                'email' => 'john.doe@gift.test',
+                'email' => 'ironman@avengers.com',
                 'password' => 'azerty',
             ],
         ]);
@@ -80,23 +99,21 @@ class UserResourceTest extends ApiTestCase
     }
 
     /**
-     *
+     * @group authenticated
      */
     public function testUpdateAsUser(): void
     {
-        $client = self::createClient();
-        $user = UserFactory::new()->create();
-        $this->logIn($client, $user);
+        $user = $this->logInAsUser();
 
-        $client->request('PUT', '/api/users/' . $user->getId(), [
+        $this->client->request('PUT', '/api/users/' . $user->getId(), [
             'json' => [
-                'email' => 'john.doe@gift.test',
+                'email' => 'ironman@avengers.com',
                 'roles' => ['ROLE_ADMIN'], // will be ignored
             ],
         ]);
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
-                'email' => 'john.doe@gift.test',
+                'email' => 'ironman@avengers.com',
         ]);
 
         $user->refresh();
@@ -104,51 +121,19 @@ class UserResourceTest extends ApiTestCase
     }
 
     /**
-     *
+     * @group authenticated
      */
     public function testUpdateAnotherUserAsUser(): void
     {
-        $client = self::createClient();
-        $user = UserFactory::new()->create();
-        $this->logIn($client, $user);
+        $this->logInAsUser();
 
-        $user = $this->createUser('unknown@gift.test', 'azerty');
+        $user = $this->createUser('tony.stark@avengers.com');
 
-        $client->request('PUT', '/api/users/' . $user->getId(), [
+        $this->client->request('PUT', '/api/users/' . $user->getId(), [
             'json' => [
-                'email' => 'john.doe@gift.test',
+                'email' => 'ironman@avengers.com',
             ],
         ]);
         $this->assertResponseStatusCodeSame(403);
-    }
-
-    /**
-     *
-     */
-    public function testUpdateAnotherUserAsAdmin(): void
-    {
-        $client = self::createClient();
-        $user = UserFactory::new()->create(['email' => 'unknown@gift.test']);
-        $adminUser = UserFactory::new()
-            ->asAdmin()
-            ->create()
-        ;
-        $this->logIn($client, $adminUser);
-
-        $client->request('GET', '/api/users/' . $user->getId());
-        $this->assertJsonContains([
-            'email' => $user->getEmail(),
-            // 'isMe' => false,
-        ]);
-
-        $client->request('PUT', '/api/users/' . $user->getId(), [
-            'json' => [
-                'email' => 'john.doe@gift.test',
-            ],
-        ]);
-        $this->assertResponseIsSuccessful();
-        $this->assertJsonContains([
-             'email' => 'john.doe@gift.test',
-        ]);
     }
 }
