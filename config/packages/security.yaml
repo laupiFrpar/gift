@@ -20,13 +20,17 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        api:
             lazy: true
             provider: app_user_provider
             json_login:
                 check_path: api_login
                 username_path: email
                 password_path: password
+
+            form_login:
+                failure_path: /login
+                login_path: /login
 
             logout:
                 path: api_logout
@@ -43,7 +47,7 @@ security:
     access_control:
         - { path: '^(/api)?/logout', roles: 'ROLE_USER', requires_channel: '%env(CHANNEL)%' }
         - { path: '^(/api)?/login', roles: 'PUBLIC_ACCESS', requires_channel: '%env(CHANNEL)%' }
-        # - { path: '^/', roles: 'IS_AUTHENTICATED_FULLY', requires_channel: '%env(CHANNEL)%' }
+        - { path: '^/', roles: 'IS_AUTHENTICATED_FULLY', requires_channel: '%env(CHANNEL)%' }
 
 when@test:
     security:
