@@ -33,7 +33,7 @@ class AppFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        $user = UserFactory::createOne([
+        UserFactory::createOne([
             'email' => 'ironman@avengers.com',
             'password' => $this->passwordHasher->hashPassword(new User(), 'azerty'),
             'roles' => ['ROLE_ADMIN'],
