@@ -2,7 +2,6 @@
 
 namespace Lopi\Controller\Api;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,11 +14,9 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="api_login", methods={"POST"})
      *
-     * @param IriConverterInterface $iriConverter
-     *
      * @return Response
      */
-    public function login(IriConverterInterface $iriConverter): Response
+    public function login(): Response
     {
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->json(
@@ -30,13 +27,7 @@ class SecurityController extends AbstractController
             );
         }
 
-        $headers = [];
-
-        if (($user = $this->getUser())) {
-            $headers = ['Location' => $iriConverter->getIriFromItem($user)];
-        }
-
-        return new Response(null, Response::HTTP_NO_CONTENT, $headers);
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
     /**
