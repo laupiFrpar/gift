@@ -19,7 +19,7 @@ class SecurityController extends AbstractController
      *
      * @return Response
      */
-    public function login(IriConverterInterface $iriConverter): Response
+    public function login(): Response
     {
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->json(
@@ -30,9 +30,7 @@ class SecurityController extends AbstractController
             );
         }
 
-        return new Response(null, Response::HTTP_NO_CONTENT, [
-            'Location' => $iriConverter->getIriFromItem($this->getUser()),
-        ]);
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
     /**
