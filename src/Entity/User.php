@@ -75,7 +75,7 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
     private $plainPassword;
 
     /**
-     * @var People
+     * @var ?People
      *
      * @Groups({"user:read","user:write"})
      *

@@ -12,7 +12,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 abstract class AbstractBaseRepository extends ServiceEntityRepository
 {
     /**
-     * @return string
+     * @return mixed
      */
     public function countAll()
     {
@@ -27,7 +27,7 @@ abstract class AbstractBaseRepository extends ServiceEntityRepository
      * @param int $limit
      * @param int $offset
      *
-     * @return array<string>
+     * @return array<string>|mixed
      */
     public function findCollection(int $limit, int $offset = 0)
     {

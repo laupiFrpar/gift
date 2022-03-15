@@ -30,9 +30,13 @@ class SecurityController extends AbstractController
             );
         }
 
-        return new Response(null, Response::HTTP_NO_CONTENT, [
-            'Location' => $iriConverter->getIriFromItem($this->getUser()),
-        ]);
+        $headers = [];
+
+        if (($user = $this->getUser())) {
+            $headers = ['Location' => $iriConverter->getIriFromItem($user)];
+        }
+
+        return new Response(null, Response::HTTP_NO_CONTENT, $headers);
     }
 
     /**
