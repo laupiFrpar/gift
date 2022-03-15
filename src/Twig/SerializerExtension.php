@@ -25,7 +25,7 @@ class SerializerExtension extends AbstractExtension
     }
 
     /**
-     * @return array
+     * @return array<int, \Twig\TwigFilter>
      */
     public function getFilters(): array
     {

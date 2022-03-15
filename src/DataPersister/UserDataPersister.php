@@ -44,7 +44,7 @@ class UserDataPersister implements DataPersisterInterface
     /**
      * {@inheritdoc}
      *
-     * @return void
+     * @return object|void
      */
     public function persist($data)
     {

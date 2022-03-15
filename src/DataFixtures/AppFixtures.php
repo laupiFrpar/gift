@@ -31,7 +31,7 @@ class AppFixtures extends Fixture
     /**
      * @param ObjectManager $manager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         UserFactory::createOne([
             'email' => 'ironman@avengers.com',

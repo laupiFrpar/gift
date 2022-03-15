@@ -43,16 +43,19 @@ final class UserFactory extends ModelFactory
         // TODO inject services if required (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services)
     }
 
-    public function asAdmin()
+    public function asAdmin(): self
     {
         return $this->addState(['roles' => ['ROLE_ADMIN']]);
     }
 
-    public function withPassword(string $plainPassword)
+    public function withPassword(string $plainPassword): self
     {
         return $this->addState(['password' => $this->passwordHasher->hashPassword(new User(), $plainPassword)]);
     }
 
+    /**
+     * @return array<string, array<int, string>|string>
+     */
     protected function getDefaults(): array
     {
         return [
