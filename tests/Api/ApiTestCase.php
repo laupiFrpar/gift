@@ -1,8 +1,9 @@
 <?php
 
-namespace Lopi\Test;
+namespace Lopi\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use Lopi\Entity\User;
 use Lopi\Factory\UserFactory;
 use Zenstruck\Foundry\Proxy;
@@ -17,6 +18,9 @@ class ApiTestCase extends BaseApiTestCase
     use Factories;
     use ResetDatabase;
 
+    /**
+     * @var Client
+     */
     protected $client;
 
     /**
@@ -30,21 +34,15 @@ class ApiTestCase extends BaseApiTestCase
     /**
      * Login an user and assert if it succeed
      *
-     * @param string|User|Proxy $userOrEmail
+     * @param string|Proxy|User $userOrEmail
      * @param string            $password
      */
-    protected function logIn($userOrEmail, string $password = UserFactory::DEFAULT_PASSWORD): void
+    protected function logIn(string|Proxy|User $userOrEmail, string $password = UserFactory::DEFAULT_PASSWORD): void
     {
-        if ($userOrEmail instanceof User || $userOrEmail instanceof Proxy) {
-            $email = $userOrEmail->getEmail();
-        } elseif (is_string($userOrEmail)) {
+        if (is_string($userOrEmail)) {
             $email = $userOrEmail;
         } else {
-            throw new \InvalidArgumentException(sprintf(
-                'Argument 2 to "%s" should be a User, Foundry Proxy or string email, "%s" given',
-                __METHOD__,
-                is_object($userOrEmail) ? get_class($userOrEmail) : gettype($userOrEmail)
-            ));
+            $email = $userOrEmail->getEmail();
         }
 
         $this->client->request('POST', '/api/login', [
@@ -59,9 +57,9 @@ class ApiTestCase extends BaseApiTestCase
     /**
      * Login an admin user and assert if it succeed
      *
-     * @return User
+     * @return User|Proxy
      */
-    protected function logInAsAdmin(): Proxy
+    protected function logInAsAdmin(): User|Proxy
     {
         $user = UserFactory::new()->asAdmin()->create();
         $this->logIn($user);
@@ -72,9 +70,9 @@ class ApiTestCase extends BaseApiTestCase
     /**
      * Login an user
      *
-     * @return Proxy
+     * @return User|Proxy
      */
-    protected function logInAsUser(): Proxy
+    protected function logInAsUser(): User|Proxy
     {
         $user = UserFactory::new()->create();
         $this->logIn($user);
@@ -89,13 +87,13 @@ class ApiTestCase extends BaseApiTestCase
      * @param string $password
      * @param array  $roles
      *
-     * @return Proxy
+     * @return User|Proxy
      */
     protected function createUser(
         string $email,
         string $password = UserFactory::DEFAULT_PASSWORD,
         array $roles = ['ROLE_USER']
-    ): Proxy {
+    ): User|Proxy {
         return UserFactory::new()
             ->withPassword($password)
             ->create([

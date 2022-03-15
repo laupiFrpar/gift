@@ -50,7 +50,7 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
     private $email;
 
     /**
-     * @var array
+     * @var array<string>
      *
      * @ORM\Column(type="json")
      */
@@ -136,7 +136,7 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
     }
 
     /**
-     * @param array $roles
+     * @param array<string> $roles
      *
      * @return self
      */

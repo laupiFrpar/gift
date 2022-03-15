@@ -35,6 +35,9 @@ final class PeopleFactory extends ModelFactory
         // TODO inject services if required (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services)
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function getDefaults(): array
     {
         return [
