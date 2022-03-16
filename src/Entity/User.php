@@ -33,6 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"email"})
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table(name="users")
  */
 class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUserInterface
 {
