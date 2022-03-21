@@ -7,58 +7,46 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
     role_hierarchy:
-        ROLE_ADMIN: ROLE_USER
+        ROLE_ADMIN: 'ROLE_USER'
 
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
-                class: Lopi\Entity\User
-                property: email
+                class: 'Lopi\Entity\User'
+                property: 'email'
 
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern: '^/(_(profiler|wdt)|css|images|js)/'
             security: false
-        login:
-            pattern: ^/api/login
+
+        api_authentication_token:
+            pattern: '^/api/authentication'
             stateless: true
             json_login:
-                check_path: api_login_check
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-        api:
-            pattern: ^/api
+                check_path: 'api_authentication'
+                success_handler: 'lexik_jwt_authentication.handler.authentication_success'
+                failure_handler: 'lexik_jwt_authentication.handler.authentication_failure'
+
+        api_authentication_token_refresh:
+            pattern: '^/api/authentication_refresh'
             stateless: true
+            refresh_jwt: ~
+
+        api:
+            pattern: '^/api/'
+            stateless: true
+            provider: 'app_user_provider'
             jwt: ~
-            # lazy: true
-            # provider: app_user_provider
-            # json_login:
-            #     check_path: api_login
-            #     username_path: email
-            #     password_path: password
-
-            # form_login:
-            #     failure_path: /login
-            #     login_path: /login
-
-            # logout:
-            #     path: api_logout
-            #     target: app_login
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: '^(/api)?/logout', roles: 'ROLE_USER', requires_channel: '%env(CHANNEL)%' }
-        - { path: '^(/api)?/login', roles: 'PUBLIC_ACCESS', requires_channel: '%env(CHANNEL)%' }
-        - { path: '^/', roles: 'IS_AUTHENTICATED_FULLY', requires_channel: '%env(CHANNEL)%' }
+        - { path: '^/docs', roles: 'PUBLIC_ACCESS', requires_channel: '%env(CHANNEL)%' },
+        - { path: '^/api/authentication_token', roles: 'PUBLIC_ACCESS', requires_channel: '%env(CHANNEL)%'}
+        - { path: '^/', roles: 'PUBLIC_ACCESS', requires_channel: '%env(CHANNEL)%' }
 
 when@test:
     security:

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lopi\Controller\Api;
+namespace Lopi\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
