@@ -22,7 +22,12 @@ security:
             pattern: '^/(_(profiler|wdt)|css|images|js)/'
             security: false
 
-        api_authentication_token:
+        api_authentication_refresh:
+            pattern: '^/api/authentication_refresh'
+            stateless: true
+            refresh_jwt: ~
+
+        api_authentication:
             pattern: '^/api/authentication'
             stateless: true
             json_login:
@@ -30,13 +35,8 @@ security:
                 success_handler: 'lexik_jwt_authentication.handler.authentication_success'
                 failure_handler: 'lexik_jwt_authentication.handler.authentication_failure'
 
-        api_authentication_token_refresh:
-            pattern: '^/api/authentication_refresh'
-            stateless: true
-            refresh_jwt: ~
-
         api:
-            pattern: '^/api/'
+            pattern: '^/api'
             stateless: true
             provider: 'app_user_provider'
             jwt: ~
@@ -45,7 +45,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: '^/docs', roles: 'PUBLIC_ACCESS', requires_channel: '%env(CHANNEL)%' },
-        - { path: '^/api/authentication_token', roles: 'PUBLIC_ACCESS', requires_channel: '%env(CHANNEL)%'}
+        - { path: '^/api/authentication', roles: 'PUBLIC_ACCESS', requires_channel: '%env(CHANNEL)%'}
         - { path: '^/', roles: 'PUBLIC_ACCESS', requires_channel: '%env(CHANNEL)%' }
 
 when@test:

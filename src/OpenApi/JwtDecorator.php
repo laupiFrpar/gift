@@ -21,8 +21,20 @@ final class JwtDecorator implements OpenApiFactoryInterface
     public function __invoke(array $context = []): OpenApi
     {
         $openApi = ($this->decorated)($context);
-        $schemas = $openApi->getComponents()->getSchemas();
+        $this->buildSchemas($openApi->getComponents()->getSchemas());
+        $this->buildAuthentication($openApi);
+        $this->buildAuthenticationRefresh($openApi);
 
+        return $openApi;
+    }
+
+    /**
+     * Build schemas
+     *
+     * @param \ArrayObject $schemas
+     */
+    private function buildSchemas(\ArrayObject $schemas): void
+    {
         $schemas['Token'] = new \ArrayObject([
             'type' => 'object',
             'properties' => [
@@ -46,6 +58,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
                 ],
             ],
         ]);
+
         $schemas['Credentials'] = new \ArrayObject([
             'type' => 'object',
             'properties' => [
@@ -60,6 +73,24 @@ final class JwtDecorator implements OpenApiFactoryInterface
             ],
         ]);
 
+        $schemas['RefreshToken'] = new \ArrayObject([
+            'type' => 'object',
+            'properties' => [
+                'refresh_token' => [
+                    'type' => 'string',
+                    'example' => 'xxx',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * Build authentication for swagger
+     *
+     * @param OpenApi $openApi
+     */
+    private function buildAuthentication(OpenApi $openApi): void
+    {
         $pathItem = new Model\PathItem(
             ref: 'JWT Token',
             post: new Model\Operation(
@@ -67,7 +98,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
                 tags: ['Token'],
                 responses: [
                     '200' => [
-                        'description' => 'Get JWT Token',
+                        'description' => 'Authenticate an user and get JWT Token',
                         'content' => [
                             'application/json' => [
                                 'schema' => [
@@ -77,7 +108,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
                         ],
                     ],
                 ],
-                summary: 'Get JWT Token to login.',
+                summary: 'Authenticate an user.',
                 requestBody: new Model\RequestBody(
                     description: 'Generate new JWT Token',
                     content: new \ArrayObject([
@@ -90,8 +121,48 @@ final class JwtDecorator implements OpenApiFactoryInterface
                 ),
             ),
         );
-        $openApi->getPaths()->addPath('/api/authentication_token', $pathItem);
 
-        return $openApi;
+        $openApi->getPaths()->addPath('/api/authentication', $pathItem);
+    }
+
+    /**
+     * Build authentication for swagger
+     *
+     * @param OpenApi $openApi
+     */
+    private function buildAuthenticationRefresh(OpenApi $openApi): void
+    {
+        $pathItem = new Model\PathItem(
+            ref: 'Refresh JWT Token',
+            post: new Model\Operation(
+                operationId: 'postRefreshTokenItem',
+                tags: ['Token'],
+                responses: [
+                    '200' => [
+                        'description' => 'Refresh JWT Token',
+                        'content' => [
+                            'application/json' => [
+                                'schema' => [
+                                    '$ref' => '#/components/schemas/Token',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                summary: 'Refresh JWT Token.',
+                requestBody: new Model\RequestBody(
+                    description: 'Refresh JWT Token',
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                '$ref' => '#/components/schemas/RefreshToken',
+                            ],
+                        ],
+                    ]),
+                ),
+            ),
+        );
+
+        $openApi->getPaths()->addPath('/api/authentication_refresh', $pathItem);
     }
 }
