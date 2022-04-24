@@ -1,15 +1,24 @@
 <?php
+
 namespace Lopi\EventListener;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @author Pierre-Louis Launay <lopi@marinlaunay.fr>
+ */
 class AuthenticationSuccessListener
 {
-    # @var IriConverterInterface
+    /**
+     * @var IriConverterInterface
+     */
     protected $iriConverter;
 
+    /**
+     * @param IriConverterInterface $iriConverter
+     */
     public function __construct(IriConverterInterface $iriConverter)
     {
         $this->iriConverter = $iriConverter;

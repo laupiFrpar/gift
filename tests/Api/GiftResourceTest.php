@@ -2,7 +2,6 @@
 
 namespace Lopi\Tests\Api;
 
-use Lopi\Test\ApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

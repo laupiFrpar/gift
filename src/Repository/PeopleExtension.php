@@ -42,6 +42,9 @@ class PeopleExtension implements QueryCollectionExtensionInterface, QueryItemExt
 
     /**
      * {@inheritdoc}
+     *
+     * @param array<string> $identifiers
+     * @param array<string> $context
      */
     public function applyToItem(
         QueryBuilder $queryBuilder,
