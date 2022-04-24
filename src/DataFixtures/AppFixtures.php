@@ -5,7 +5,6 @@ namespace Lopi\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Lopi\Entity\User;
-use Lopi\Factory\GiftFactory;
 use Lopi\Factory\PeopleFactory;
 use Lopi\Factory\UserFactory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -40,7 +39,5 @@ class AppFixtures extends Fixture
         ]);
 
         PeopleFactory::createMany(10);
-
-        GiftFactory::createMany(20);
     }
 }
