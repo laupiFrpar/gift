@@ -10,16 +10,18 @@ use Lopi\Repository\PeopleRepository;
 
 /**
  * @ApiResource(
+ *      security="is_granted('ROLE_USER')",
  *      collectionOperations={
  *          "get",
- *          "post",
+ *          "post"={
+ *              "security"="is_granted('ROLE_ADMIN')"
+ *          },
  *      },
  *      itemOperations={
  *          "get",
- *          "put",
- *          "delete",
+ *          "put"={"security"="is_granted('ROLE_ADMIN')"},
+ *          "delete"={"security"="is_granted('ROLE_ADMIN')"},
  *      },
- *      security="is_granted('ROLE_USER')",
  *      shortName="peoples",
  * )
  *
@@ -27,7 +29,7 @@ use Lopi\Repository\PeopleRepository;
  *
  * @ORM\Entity(repositoryClass=PeopleRepository::class)
  */
-class People
+class People implements ResourceInterface
 {
     use ResourceTrait;
 

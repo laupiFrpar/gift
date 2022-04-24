@@ -37,7 +37,7 @@ class PeopleExtension implements QueryCollectionExtensionInterface, QueryItemExt
         string $resourceClass,
         string $operationName = null
     ): void {
-        $this->addWhere($queryBuilder, $resourceClass);
+        // $this->addWhere($queryBuilder, $resourceClass);
     }
 
     /**
