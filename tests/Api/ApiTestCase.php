@@ -4,7 +4,9 @@ namespace Lopi\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
+use Lopi\Entity\People;
 use Lopi\Entity\User;
+use Lopi\Factory\PeopleFactory;
 use Lopi\Factory\UserFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\Test\Factories;
@@ -107,6 +109,16 @@ class ApiTestCase extends BaseApiTestCase
             ->create([
                 'email' => $email,
                 'roles' => $roles,
+            ])
+        ;
+    }
+
+    protected function createPeople(string $firstName = 'Tony', string $lastName = 'Stark'): People|Proxy
+    {
+        return PeopleFactory::new()
+            ->create([
+                'firstName' => $firstName,
+                'lastName' => $lastName,
             ])
         ;
     }

@@ -48,6 +48,14 @@ class Gift implements ResourceInterface
     private $price;
 
     /**
+     * @var People
+     *
+     * @ORM\OneToOne(targetEntity="People")
+     * @ORM\JoinColumn(name="buyer_id", referencedColumnName="id")
+     */
+    private $buyer;
+
+    /**
      * @return ?string
      */
     public function getTitle(): ?string
@@ -83,6 +91,26 @@ class Gift implements ResourceInterface
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return People
+     */
+    public function getBuyer(): ?People
+    {
+        return $this->buyer;
+    }
+
+    /**
+     * @param People $buyer
+     *
+     * @return self
+     */
+    public function setBuyer(People $buyer = null)
+    {
+        $this->buyer = $buyer;
 
         return $this;
     }

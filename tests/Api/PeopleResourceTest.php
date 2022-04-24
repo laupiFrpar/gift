@@ -2,10 +2,7 @@
 
 namespace Lopi\Tests\Api;
 
-use Lopi\Entity\People;
-use Lopi\Factory\PeopleFactory;
 use Symfony\Component\HttpFoundation\Response;
-use Zenstruck\Foundry\Proxy;
 
 class PeopleResourceTest extends ApiTestCase
 {
@@ -198,15 +195,5 @@ class PeopleResourceTest extends ApiTestCase
         $this->client->request('GET', "/api/peoples/{$id}");
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
-    }
-
-    public function createPeople(string $firstName = 'Tony', string $lastName = 'Stark'): People|Proxy
-    {
-        return PeopleFactory::new()
-            ->create([
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-            ])
-        ;
     }
 }
