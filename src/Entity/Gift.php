@@ -56,6 +56,14 @@ class Gift implements ResourceInterface
     private $buyer;
 
     /**
+     * @var People
+     *
+     * @ORM\OneToOne(targetEntity="People")
+     * @ORM\JoinColumn(name="receiver_id", referencedColumnName="id")
+     */
+    private $receiver;
+
+    /**
      * @return ?string
      */
     public function getTitle(): ?string
@@ -108,9 +116,29 @@ class Gift implements ResourceInterface
      *
      * @return self
      */
-    public function setBuyer(People $buyer = null)
+    public function setBuyer(People $buyer = null): self
     {
         $this->buyer = $buyer;
+
+        return $this;
+    }
+
+    /**
+     * @return People
+     */
+    public function getReceiver(): ?People
+    {
+        return $this->receiver;
+    }
+
+    /**
+     * @param People $receiver
+     *
+     * @return self
+     */
+    public function setReceiver(People $receiver = null): self
+    {
+        $this->buyer = $receiver;
 
         return $this;
     }

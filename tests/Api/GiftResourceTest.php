@@ -241,6 +241,39 @@ class GiftResourceTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
+    public function testAddReceiver(): void
+    {
+        $this->logInAsUser();
+        $people = $this->createPeople();
+        $iri = $this->findIriBy(People::class, ['id' => $people->getId()]);
+
+        $this->client->request('POST', 'api/gifts', [
+            'json' => [
+                'title' => 'lego',
+                'price' => 100.00,
+                'receiver' => $iri ,
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
+    }
+
+    public function testUpdateReceiver(): void
+    {
+        $this->logInAsUser();
+        $people = $this->createPeople();
+        $gift = $this->createGift();
+        $iri = $this->findIriBy(People::class, ['id' => $people->getId()]);
+
+        $this->client->request('PUT', "api/gifts/{$gift->getId()}", [
+            'json' => [
+                'receiver' => $iri ,
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
     public function createGift(string $title = 'Lego', float $price = 100.00): Gift|Proxy
     {
         return GiftFactory::new()
