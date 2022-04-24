@@ -21,13 +21,6 @@ docker
 
 .phpcs-cache
 
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-
 .DS_Store
 
 ###> lexik/jwt-authentication-bundle ###

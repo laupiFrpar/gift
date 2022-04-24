@@ -45,13 +45,21 @@ class ApiTestCase extends BaseApiTestCase
             $email = $userOrEmail->getEmail();
         }
 
-        $this->client->request('POST', '/api/login', [
+        $response = $this->client->request('POST', '/api/authentication', [
+            'headers' => ['Content-Type' => 'application/json'],
             'json' => [
-                'email' => $email,
+                'username' => $email,
                 'password' => $password,
             ],
         ]);
-        $this->assertResponseStatusCodeSame(204);
+        $this->assertResponseIsSuccessful();
+
+        $json = $response->toArray();
+
+        $this->assertArrayHasKey('token', $json);
+        $this->assertArrayHasKey('refresh_token', $json);
+
+        $this->client->setDefaultOptions(['auth_bearer' => $json['token']]);
     }
 
     /**
