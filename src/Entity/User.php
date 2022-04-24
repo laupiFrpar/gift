@@ -33,6 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"email"})
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table(name="users")
  */
 class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUserInterface
 {
@@ -50,7 +51,7 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
     private $email;
 
     /**
-     * @var array
+     * @var array<string>
      *
      * @ORM\Column(type="json")
      */
@@ -75,7 +76,7 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
     private $plainPassword;
 
     /**
-     * @var People
+     * @var ?People
      *
      * @Groups({"user:read","user:write"})
      *
@@ -136,7 +137,7 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
     }
 
     /**
-     * @param array $roles
+     * @param array<string> $roles
      *
      * @return self
      */

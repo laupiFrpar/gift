@@ -35,6 +35,9 @@ final class GiftFactory extends ModelFactory
         // TODO inject services if required (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services)
     }
 
+    /**
+     * @return array<string, float|string>
+     */
     protected function getDefaults(): array
     {
         return [

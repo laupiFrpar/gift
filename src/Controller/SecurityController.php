@@ -1,8 +1,7 @@
 <?php
 
-namespace Lopi\Controller\Api;
+namespace Lopi\Controller;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,8 +13,6 @@ class SecurityController extends AbstractController
 {
     /**
      * @Route("/login", name="api_login", methods={"POST"})
-     *
-     * @param IriConverterInterface $iriConverter
      *
      * @return Response
      */
