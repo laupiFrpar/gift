@@ -6,6 +6,11 @@ use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\Core\OpenApi\Model;
 use ApiPlatform\Core\OpenApi\OpenApi;
 
+/**
+ * Adding endpoint to SwaggerUI to retrieve a JWT token
+ *
+ * @see https://api-platform.com/docs/core/jwt/
+ */
 final class JwtDecorator implements OpenApiFactoryInterface
 {
     /**
