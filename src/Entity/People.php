@@ -8,52 +8,36 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Lopi\Repository\PeopleRepository;
 
-/**
- * @ApiResource(
- *      security="is_granted('ROLE_USER')",
- *      collectionOperations={
- *          "get",
- *          "post"={
- *              "security"="is_granted('ROLE_ADMIN')"
- *          },
- *      },
- *      itemOperations={
- *          "get",
- *          "put"={"security"="is_granted('ROLE_ADMIN')"},
- *          "delete"={"security"="is_granted('ROLE_ADMIN')"},
- *      },
- *      shortName="peoples",
- * )
- *
- * @ApiFilter(OrderFilter::class, properties={"id", "firstName", "lastName", "createdAt"})
- *
- * @ORM\Entity(repositoryClass=PeopleRepository::class)
- */
+#[ApiResource(
+    collectionOperations: [
+        'get',
+        'post' => ['security' => 'is_granted("ROLE_ADMIN")'],
+    ],
+    itemOperations: [
+        'get',
+        'put' => ['security' => 'is_granted("ROLE_ADMIN")'],
+        'delete' => ['security' => 'is_granted("ROLE_ADMIN")'],
+    ],
+    security: 'is_granted("ROLE_USER")',
+    shortName: 'peoples',
+)]
+#[ApiFilter(OrderFilter::class, properties: ['id', 'firstName', 'lastName', 'createdAt'])]
+#[ORM\Entity(repositoryClass: PeopleRepository::class)]
 class People implements ResourceInterface
 {
     use ResourceTrait;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255)
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $firstName;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255)
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $lastName;
-
-    /**
-     * @return ?int
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     /**
      * @return ?string

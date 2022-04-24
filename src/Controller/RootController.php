@@ -12,10 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class RootController extends AbstractController
 {
     /**
-     * @Route("/ping", name="ping", methods={"GET"}, defaults={"_format": "json"})
-     *
      * @return JsonResponse
      */
+    #[Route('/ping', name: 'ping', methods: ['GET'], defaults: ['_format' => 'json'])]
     public function ping(): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'User tried to ping Gift API');

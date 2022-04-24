@@ -20,7 +20,7 @@ doctrine:
         mappings:
             LopiApi:
                 is_bundle: false
-                type: annotation
+                type: attribute
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'Lopi\Entity'
                 alias: Lopi

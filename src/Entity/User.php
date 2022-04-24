@@ -12,29 +12,26 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ApiResource(
- *      security="is_granted('ROLE_USER')",
- *      collectionOperations={
- *          "get",
- *          "post"={
- *              "security"="is_granted('ROLE_ADMIN')",
- *              "validation_groups"={"Default", "create"}
- *          },
- *      },
- *      itemOperations={
- *          "get",
- *          "put"={"security"="is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and object == user)"},
- *          "delete"={"security"="is_granted('ROLE_ADMIN')"},
- *     },
- *     normalizationContext={"groups"={"user:read","resource:read"}},
- *     denormalizationContext={"groups"={"user:write"}},
- * )
- * @UniqueEntity(fields={"email"})
- *
- * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="users")
- */
+#[ApiResource(
+    collectionOperations: [
+        'get',
+        'post' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+            'validation_groups' => ['Default', 'create'],
+        ],
+    ],
+    itemOperations: [
+        'get',
+        'put' => ['security' => 'is_granted("ROLE_ADMIN") or (is_granted("ROLE_USER") and object == user)'],
+        'delete' => ['security' => 'is_granted("ROLE_ADMIN")'],
+    ],
+    denormalizationContext: ['groups' => ['user:write']],
+    normalizationContext: ['groups' => ['user:read', 'resource:read']],
+    security: 'is_granted("ROLE_USER")',
+)]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: 'users')]
+#[UniqueEntity(fields: ['email'])]
 class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUserInterface
 {
     use ResourceTrait;
@@ -42,26 +39,22 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=180, unique=true)
-     *
      * @Groups({"user:read", "user:write"})
-     *
-     * @Assert\NotBlank()
      */
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\NotBlank()]
     private $email;
 
     /**
      * @var array<string>
-     *
-     * @ORM\Column(type="json")
      */
+    #[ORM\Column(type: 'json')]
     private $roles = [];
 
     /**
      * @var string The hashed password
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $password;
 
     /**
@@ -70,9 +63,8 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
      * @Groups({"user:write"})
      *
      * @SerializedName("password")
-     *
-     * @Assert\NotBlank(groups={"create"})
      */
+    #[Assert\NotBlank(groups: ['create'])]
     private $plainPassword;
 
     /**

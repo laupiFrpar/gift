@@ -13,33 +13,24 @@ trait ResourceTrait
 {
     /**
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Id, ORM\GeneratedValue(), ORM\Column(type: 'integer')]
     private $id;
 
     /**
      * @var \DateTime createdAt
-     *
-     * @ORM\Column(name="created_at", type="datetime")
-     *
-     * @Gedmo\Timestampable(on="create")
-     *
-     * @Groups({"resource:read"})
      */
+    #[Gedmo\Timestampable(on: 'create')]
+    #[Groups(['resource:read'])]
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
     private $createdAt;
 
     /**
      * @var \DateTime updatedAt
-     *
-     * @ORM\Column(name="updated_at", type="datetime")
-     *
-     * @Gedmo\Timestampable(on="create")
-     *
-     * @Groups({"resource:read"})
      */
+    #[Gedmo\Timestampable(on: 'update')]
+    #[Groups(['resource:read'])]
+    #[ORM\Column(name: 'updated_at', type: 'datetime')]
     private $updatedAt;
 
     /**

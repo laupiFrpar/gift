@@ -7,60 +7,43 @@ use Doctrine\ORM\Mapping as ORM;
 use Lopi\Repository\GiftRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ApiResource(
- *      security="is_granted('ROLE_USER')",
- *      collectionOperations={
- *          "get",
- *          "post",
- *      },
- *      itemOperations={
- *          "get",
- *          "put",
- *          "delete",
- *      }
- * )
- * @ORM\Entity(repositoryClass=GiftRepository::class)
- */
+#[ApiResource(
+    collectionOperations: ['get', 'post'],
+    itemOperations: ['get', 'put', 'delete'],
+    security: 'is_granted("ROLE_USER")',
+)]
+#[ORM\Entity(repositoryClass: GiftRepository::class)]
 class Gift implements ResourceInterface
 {
     use ResourceTrait;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Assert\NotBlank()
-     * @Assert\Length(
-     *     max=255,
-     * )
      */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private $title;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float")
-     *
-     * @Assert\NotBlank()
      */
+    #[ORM\Column(type: 'float')]
+    #[Assert\NotBlank()]
     private $price;
 
     /**
      * @var People
-     *
-     * @ORM\OneToOne(targetEntity="People")
-     * @ORM\JoinColumn(name="buyer_id", referencedColumnName="id")
      */
+    #[ORM\OneToOne(targetEntity: 'People')]
+    #[ORM\JoinColumn(name: 'buyer_id', referencedColumnName: 'id')]
     private $buyer;
 
     /**
      * @var People
-     *
-     * @ORM\OneToOne(targetEntity="People")
-     * @ORM\JoinColumn(name="receiver_id", referencedColumnName="id")
      */
+    #[ORM\OneToOne(targetEntity: 'People')]
+    #[ORM\JoinColumn(name: 'receiver_id', referencedColumnName: 'id')]
     private $receiver;
 
     /**
