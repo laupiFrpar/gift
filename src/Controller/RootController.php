@@ -1,10 +1,14 @@
 <?php
+
 namespace Lopi\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Say hello to our api.
+ */
 class RootController extends AbstractController
 {
     /**
