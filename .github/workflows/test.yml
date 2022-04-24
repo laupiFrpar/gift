@@ -53,6 +53,7 @@ jobs:
         run: |
           bin/console doctrine:database:create --env=test
           bin/console doctrine:schema:create --env=test
+          bin/console lexik:jwt:generate-keypair --env=test
 
       - name: Test
         run: APP_ENV=test bin/phpunit
