@@ -30,6 +30,7 @@
         <exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
         <exclude name="Squiz.Strings.ConcatenationSpacing.PaddingFound" />
         <exclude name="Symfony.Commenting.ClassComment.Missing" />
+        <exclude name="Symfony.Commenting.FunctionComment.Missing" />
         <exclude name="Symfony.Commenting.License.Warning" />
         <exclude name="Symfony.Functions.Arguments.Invalid" />
     </rule>

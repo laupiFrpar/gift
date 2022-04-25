@@ -2,6 +2,7 @@
 
 namespace Lopi\Tests\Api;
 
+use Lopi\Entity\Gift;
 use Lopi\Entity\People;
 use Lopi\Factory\GiftFactory;
 use Symfony\Component\HttpFoundation\Response;
@@ -212,17 +213,20 @@ class GiftResourceTest extends ApiTestCase
     {
         $this->logInAsUser();
         $people = $this->createPeople();
-        $iri = $this->findIriBy(People::class, ['id' => $people->getId()]);
+        $iriBuyer = $this->findIriBy(People::class, ['id' => $people->getId()]);
 
-        $this->client->request('POST', 'api/gifts', [
+        $response = $this->client->request('POST', 'api/gifts', [
             'json' => [
                 'title' => 'lego',
                 'price' => 100.00,
-                'buyer' => $iri ,
+                'buyer' => $iriBuyer,
             ],
         ]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
+        $json = $response->toArray();
+
+        $this->assertEquals($iriBuyer, $json['buyer']);
     }
 
     public function testUpdateBuyer(): void
@@ -230,32 +234,38 @@ class GiftResourceTest extends ApiTestCase
         $this->logInAsUser();
         $people = $this->createPeople();
         $gift = $this->createGift();
-        $iri = $this->findIriBy(People::class, ['id' => $people->getId()]);
+        $iriBuyer = $this->findIriBy(People::class, ['id' => $people->getId()]);
 
-        $this->client->request('PUT', "api/gifts/{$gift->getId()}", [
+        $response = $this->client->request('PUT', "api/gifts/{$gift->getId()}", [
             'json' => [
-                'buyer' => $iri ,
+                'buyer' => $iriBuyer ,
             ],
         ]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $json = $response->toArray();
+
+        $this->assertEquals($iriBuyer, $json['buyer']);
     }
 
     public function testAddReceiver(): void
     {
         $this->logInAsUser();
         $people = $this->createPeople();
-        $iri = $this->findIriBy(People::class, ['id' => $people->getId()]);
+        $iriReceiver = $this->findIriBy(People::class, ['id' => $people->getId()]);
 
-        $this->client->request('POST', 'api/gifts', [
+        $response = $this->client->request('POST', 'api/gifts', [
             'json' => [
                 'title' => 'lego',
                 'price' => 100.00,
-                'receiver' => $iri ,
+                'receiver' => $iriReceiver,
             ],
         ]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
+        $json = $response->toArray();
+
+        $this->assertEquals($iriReceiver, $json['receiver']);
     }
 
     public function testUpdateReceiver(): void
@@ -263,15 +273,84 @@ class GiftResourceTest extends ApiTestCase
         $this->logInAsUser();
         $people = $this->createPeople();
         $gift = $this->createGift();
-        $iri = $this->findIriBy(People::class, ['id' => $people->getId()]);
+        $iriReceiver = $this->findIriBy(People::class, ['id' => $people->getId()]);
 
-        $this->client->request('PUT', "api/gifts/{$gift->getId()}", [
+        $response = $this->client->request('PUT', "api/gifts/{$gift->getId()}", [
             'json' => [
-                'receiver' => $iri ,
+                'receiver' => $iriReceiver ,
             ],
         ]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        $json = $response->toArray();
+
+        $this->assertEquals($iriReceiver, $json['receiver']);
+    }
+
+    public function testReceiverCannotBeBuyer()
+    {
+        $this->loginAsUser();
+        $gift = $this->createGift();
+        $people = $this->findIriBy(People::class, ['id' => $this->createPeople()->getId()]);
+
+        $this->client->request('POST', 'api/gifts', [
+            'json' => [
+                'title' => 'Lego',
+                'price' => 100.0,
+                'buyer' => $people,
+                'receiver' => $people,
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        $this->client->request('PUT', "api/gifts/{$gift->getId()}", [
+            'json' => [
+                'buyer' => $people,
+                'receiver' => $people,
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    public function testGiftHasReceiverAndBuyer()
+    {
+        $this->loginAsUser();
+        $gift = $this->createGift();
+        $buyer = $this->findIriBy(People::class, ['id' => $this->createPeople()->getId()]);
+        $receiver = $this->findIriBy(People::class, ['id' => $this->createPeople()->getId()]);
+
+        $response = $this->client->request('POST', 'api/gifts', [
+            'json' => [
+                'title' => 'Lego',
+                'price' => 100.00,
+                'buyer' => $buyer,
+                'receiver' => $receiver,
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
+
+        $json = $response->toArray();
+
+        $this->assertEquals($buyer, $json['buyer']);
+        $this->assertEquals($receiver, $json['receiver']);
+
+        $response = $this->client->request('PUT', "api/gifts/{$gift->getId()}", [
+            'json' => [
+                'buyer' => $buyer,
+                'receiver' => $receiver,
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        $json = $response->toArray();
+
+        $this->assertEquals($buyer, $json['buyer']);
+        $this->assertEquals($receiver, $json['receiver']);
     }
 
     public function createGift(string $title = 'Lego', float $price = 100.00): Gift|Proxy

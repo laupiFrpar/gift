@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220424230521 extends AbstractMigration
+final class Version20220425063826 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,8 +24,8 @@ final class Version20220424230521 extends AbstractMigration
         $this->addSql('ALTER TABLE gift ADD receiver_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE gift ADD CONSTRAINT FK_A47C990D6C755722 FOREIGN KEY (buyer_id) REFERENCES people (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE gift ADD CONSTRAINT FK_A47C990DCD53EDB6 FOREIGN KEY (receiver_id) REFERENCES people (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_A47C990D6C755722 ON gift (buyer_id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_A47C990DCD53EDB6 ON gift (receiver_id)');
+        $this->addSql('CREATE INDEX IDX_A47C990D6C755722 ON gift (buyer_id)');
+        $this->addSql('CREATE INDEX IDX_A47C990DCD53EDB6 ON gift (receiver_id)');
     }
 
     public function down(Schema $schema): void
@@ -34,8 +34,8 @@ final class Version20220424230521 extends AbstractMigration
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE gift DROP CONSTRAINT FK_A47C990D6C755722');
         $this->addSql('ALTER TABLE gift DROP CONSTRAINT FK_A47C990DCD53EDB6');
-        $this->addSql('DROP INDEX UNIQ_A47C990D6C755722');
-        $this->addSql('DROP INDEX UNIQ_A47C990DCD53EDB6');
+        $this->addSql('DROP INDEX IDX_A47C990D6C755722');
+        $this->addSql('DROP INDEX IDX_A47C990DCD53EDB6');
         $this->addSql('ALTER TABLE gift DROP buyer_id');
         $this->addSql('ALTER TABLE gift DROP receiver_id');
     }

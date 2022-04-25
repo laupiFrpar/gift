@@ -5,6 +5,7 @@ namespace Lopi\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Lopi\Repository\GiftRepository;
+use Lopi\Validator as LopiAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
@@ -13,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     security: 'is_granted("ROLE_USER")',
 )]
 #[ORM\Entity(repositoryClass: GiftRepository::class)]
+#[LopiAssert\IsBuyerDifferentReceiver()]
 class Gift implements ResourceInterface
 {
     use ResourceTrait;
@@ -35,14 +37,14 @@ class Gift implements ResourceInterface
     /**
      * @var People
      */
-    #[ORM\OneToOne(targetEntity: 'People')]
+    #[ORM\ManyToOne(targetEntity: 'People')]
     #[ORM\JoinColumn(name: 'buyer_id', referencedColumnName: 'id')]
     private $buyer;
 
     /**
      * @var People
      */
-    #[ORM\OneToOne(targetEntity: 'People')]
+    #[ORM\ManyToOne(targetEntity: 'People')]
     #[ORM\JoinColumn(name: 'receiver_id', referencedColumnName: 'id')]
     private $receiver;
 
@@ -121,7 +123,7 @@ class Gift implements ResourceInterface
      */
     public function setReceiver(People $receiver = null): self
     {
-        $this->buyer = $receiver;
+        $this->receiver = $receiver;
 
         return $this;
     }
