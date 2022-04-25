@@ -4,8 +4,10 @@ namespace Lopi\Tests\Api;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
+use Lopi\Entity\Event;
 use Lopi\Entity\People;
 use Lopi\Entity\User;
+use Lopi\Factory\EventFactory;
 use Lopi\Factory\PeopleFactory;
 use Lopi\Factory\UserFactory;
 use Zenstruck\Foundry\Proxy;
@@ -119,6 +121,16 @@ class ApiTestCase extends BaseApiTestCase
             ->create([
                 'firstName' => $firstName,
                 'lastName' => $lastName,
+            ])
+        ;
+    }
+
+    protected function createEvent(string $type = Event::BIRTHDAY_TYPE, $year = '2022'): Event|Proxy
+    {
+        return EventFactory::new()
+            ->create([
+                'type' => $type,
+                'year' => $year,
             ])
         ;
     }

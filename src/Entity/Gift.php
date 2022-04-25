@@ -3,17 +3,19 @@
 namespace Lopi\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Lopi\Repository\GiftRepository;
 use Lopi\Validator as LopiAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\Entity(repositoryClass: GiftRepository::class)]
 #[ApiResource(
+    security: 'is_granted("ROLE_USER")',
     collectionOperations: ['get', 'post'],
     itemOperations: ['get', 'put', 'delete'],
-    security: 'is_granted("ROLE_USER")',
 )]
-#[ORM\Entity(repositoryClass: GiftRepository::class)]
 #[LopiAssert\IsBuyerDifferentReceiver()]
 class Gift implements ResourceInterface
 {
@@ -34,6 +36,14 @@ class Gift implements ResourceInterface
     #[ORM\ManyToOne(targetEntity: People::class)]
     #[ORM\JoinColumn(name: 'receiver_id', referencedColumnName: 'id')]
     private ?People $receiver = null;
+
+    #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'gifts')]
+    private $events;
+
+    public function __construct()
+    {
+        $this->events = new ArrayCollection();
+    }
 
     public function getTitle(): ?string
     {
@@ -79,6 +89,30 @@ class Gift implements ResourceInterface
     public function setReceiver(People $receiver = null): self
     {
         $this->receiver = $receiver;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        $this->events->removeElement($event);
 
         return $this;
     }

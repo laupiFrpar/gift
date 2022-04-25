@@ -9,7 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Lopi\Repository\PeopleRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\Entity(repositoryClass: PeopleRepository::class)]
 #[ApiResource(
+    security: 'is_granted("ROLE_USER")',
     collectionOperations: [
         'get',
         'post' => ['security' => 'is_granted("ROLE_ADMIN")'],
@@ -19,11 +21,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         'put' => ['security' => 'is_granted("ROLE_ADMIN")'],
         'delete' => ['security' => 'is_granted("ROLE_ADMIN")'],
     ],
-    security: 'is_granted("ROLE_USER")',
     shortName: 'peoples',
 )]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'firstName', 'lastName', 'createdAt'])]
-#[ORM\Entity(repositoryClass: PeopleRepository::class)]
 class People implements ResourceInterface
 {
     use ResourceTrait;

@@ -2,6 +2,7 @@
 
 namespace Lopi\Tests\Api;
 
+use Lopi\Entity\Event;
 use Lopi\Entity\Gift;
 use Lopi\Entity\People;
 use Lopi\Factory\GiftFactory;
@@ -351,6 +352,33 @@ class GiftResourceTest extends ApiTestCase
 
         $this->assertEquals($buyer, $json['buyer']);
         $this->assertEquals($receiver, $json['receiver']);
+    }
+
+    public function testAddEvent()
+    {
+        $this->loginAsUser();
+        $gift = $this->createGift();
+        $event = $this->findIriBy(Event::class, ['id' => $this->createEvent()->getId()]);
+        $buyer = $this->findIriBy(People::class, ['id' => $this->createPeople()->getId()]);
+        $receiver = $this->findIriBy(People::class, ['id' => $this->createPeople()->getId()]);
+
+        $response = $this->client->request('POST', 'api/gifts', [
+            'json' => [
+                'title' => 'Lego',
+                'price' => 100.00,
+                'buyer' => $buyer,
+                'receiver' => $receiver,
+                'events' => [
+                    $event,
+                ],
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
+
+        $json = $response->toArray();
+
+        $this->assertContains($event, $json['events']);
     }
 
     public function createGift(string $title = 'Lego', float $price = 100.00): Gift|Proxy

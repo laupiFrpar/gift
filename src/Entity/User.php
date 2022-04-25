@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\Entity(repositoryClass: UserRepository::class), ORM\Table(name: 'users')]
+#[UniqueEntity(fields: ['email'])]
 #[ApiResource(
+    security: 'is_granted("ROLE_USER")',
     collectionOperations: [
         'get',
         'post' => [
@@ -27,17 +30,13 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     denormalizationContext: ['groups' => ['user:write']],
     normalizationContext: ['groups' => ['user:read', 'resource:read']],
-    security: 'is_granted("ROLE_USER")',
 )]
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'users')]
-#[UniqueEntity(fields: ['email'])]
 class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUserInterface
 {
     use ResourceTrait;
 
-    #[Assert\NotBlank(), Assert\NotNull(), Assert\Length(max: 180)]
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\NotBlank(), Assert\NotNull(), Assert\Length(max: 180)]
     #[Groups(['user:read', 'user:write'])]
     private string $email;
 
@@ -51,8 +50,7 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
     private string $password;
 
     #[Assert\NotBlank(groups: ['create']), Assert\NotNull(groups: ['create']), Assert\Length(max: 255)]
-    #[Groups(['user:write'])]
-    #[SerializedName('password')]
+    #[Groups(['user:write']), SerializedName('password')]
     private ?string $plainPassword = null;
 
     public function getEmail(): ?string

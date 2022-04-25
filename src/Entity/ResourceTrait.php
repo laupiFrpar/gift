@@ -11,14 +11,14 @@ trait ResourceTrait
     #[ORM\Id, ORM\GeneratedValue(), ORM\Column(type: 'integer')]
     private int $id;
 
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[Gedmo\Timestampable(on: 'create')]
     #[Groups(['resource:read'])]
-    #[ORM\Column(name: 'created_at', type: 'datetime')]
     private \DateTime $createdAt;
 
+    #[ORM\Column(name: 'updated_at', type: 'datetime')]
     #[Gedmo\Timestampable(on: 'update')]
     #[Groups(['resource:read'])]
-    #[ORM\Column(name: 'updated_at', type: 'datetime')]
     private \DateTime $updatedAt;
 
     /**
