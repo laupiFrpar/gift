@@ -17,13 +17,18 @@ jobs:
         uses: actions/checkout@v2
 
       # https://github.com/shivammathur/setup-php (community)
-      - name: Install latest PHP, composer and phpcs
+      - name: Install latest PHP, composer and phpstan
         uses: shivammathur/setup-php@v2
         with:
           php-version: latest
+          extensions: ctype, dom, filter, iconv, intl, json, mbstring, pdo, pdo_sqlite, xml
           tools: phpstan
         env:
           update: true
+
+      - name: Install dependencies
+        # if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Analyze
         run: phpstan analyze src
