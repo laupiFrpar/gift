@@ -42,7 +42,7 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
      * @Groups({"user:read", "user:write"})
      */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Assert\NotBlank(), Assert\NotNull(), Assert\Length(180)]
+    #[Assert\NotBlank(), Assert\NotNull(), Assert\Length(max: 180)]
     private $email;
 
     /**
@@ -60,7 +60,7 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
     /**
      * @var string|null
      */
-    #[Assert\NotBlank(groups: ['create']), Assert\NotNull(groups: ['create']), Assert\Length(255)]
+    #[Assert\NotBlank(groups: ['create']), Assert\NotNull(groups: ['create']), Assert\Length(max: 255)]
     #[Groups(['user:write'])]
     #[SerializedName('password')]
     private $plainPassword;
