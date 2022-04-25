@@ -22,16 +22,15 @@ class Gift implements ResourceInterface
     /**
      * @var string
      */
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank(), Assert\NotNull(), Assert\Length(max: 255)]
     private $title;
 
     /**
      * @var float
      */
     #[ORM\Column(type: 'float')]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(), Assert\NotNull()]
     private $price;
 
     /**

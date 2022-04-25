@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Lopi\Repository\PeopleRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     collectionOperations: [
@@ -30,13 +31,15 @@ class People implements ResourceInterface
     /**
      * @var string
      */
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank(), Assert\NotNull(), Assert\Length(max: 255)]
     private $firstName;
 
     /**
      * @var string
      */
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank(), Assert\NotNull(), Assert\Length(max: 255)]
     private $lastName;
 
     /**
