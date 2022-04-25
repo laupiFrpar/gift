@@ -13,9 +13,6 @@ use Lopi\Entity\People;
  */
 class PeopleRepository extends AbstractBaseRepository
 {
-    /**
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, People::class);

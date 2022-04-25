@@ -2,6 +2,7 @@ parameters:
     level: 9
     bootstrapFiles:
         - vendor/autoload.php
+    checkGenericClassInNonGenericObjectType: false
     paths:
         - src
     symfony:

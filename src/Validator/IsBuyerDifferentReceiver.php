@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 #[\Attribute]
 class IsBuyerDifferentReceiver extends Constraint
 {
-    public $message = 'The buyer must be different from the receiver';
+    public string $message = 'The buyer must be different from the receiver';
 
     public function getTargets(): string
     {

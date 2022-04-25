@@ -6,51 +6,22 @@ use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use Lopi\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-/**
- * @author Pierre-Louis Launay <lopi@marinlaunay.fr>
- */
 class UserDataPersister implements DataPersisterInterface
 {
-    /**
-     * @var DataPersisterInterface
-     */
-    private $decoratedDataPersister;
-
-    /**
-     * @var UserPasswordHasherInterface
-     */
-    private $userPasswordHasher;
-
-    /**
-     * @param DataPersisterInterface      $decoratedDataPersister
-     * @param UserPasswordHasherInterface $userPasswordHasher
-     */
     public function __construct(
-        DataPersisterInterface $decoratedDataPersister,
-        UserPasswordHasherInterface $userPasswordHasher
+        private DataPersisterInterface $decoratedDataPersister,
+        private UserPasswordHasherInterface $userPasswordHasher
     ) {
-        $this->decoratedDataPersister = $decoratedDataPersister;
-        $this->userPasswordHasher = $userPasswordHasher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supports($data): bool
     {
         return $data instanceof User;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param User $data
-     *
-     * @return object|void
-     */
     public function persist($data)
     {
-        if ($data->getPlainPassword()) {
+        if ($data instanceof User && $data->getPlainPassword()) {
             $data->setPassword(
                 $this->userPasswordHasher->hashPassword(
                     $data,
@@ -63,9 +34,6 @@ class UserDataPersister implements DataPersisterInterface
         return $this->decoratedDataPersister->persist($data);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function remove($data): void
     {
         $this->decoratedDataPersister->remove($data);

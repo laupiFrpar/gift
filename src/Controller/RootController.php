@@ -6,14 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Say hello to our api.
- */
 class RootController extends AbstractController
 {
-    /**
-     * @return JsonResponse
-     */
     #[Route('/ping', name: 'ping', methods: ['GET'], defaults: ['_format' => 'json'])]
     public function ping(): JsonResponse
     {

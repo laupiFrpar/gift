@@ -11,10 +11,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 abstract class AbstractBaseRepository extends ServiceEntityRepository
 {
-    /**
-     * @return mixed
-     */
-    public function countAll()
+    public function countAll(): mixed
     {
         return $this->createQueryBuilder('r')
             ->select('count(r)')

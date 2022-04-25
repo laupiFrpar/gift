@@ -19,47 +19,27 @@ class Gift implements ResourceInterface
 {
     use ResourceTrait;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank(), Assert\NotNull(), Assert\Length(max: 255)]
-    private $title;
+    private string $title;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float')]
     #[Assert\NotBlank(), Assert\NotNull()]
-    private $price;
+    private float $price;
 
-    /**
-     * @var People
-     */
-    #[ORM\ManyToOne(targetEntity: 'People')]
+    #[ORM\ManyToOne(targetEntity: People::class)]
     #[ORM\JoinColumn(name: 'buyer_id', referencedColumnName: 'id')]
-    private $buyer;
+    private ?People $buyer;
 
-    /**
-     * @var People
-     */
-    #[ORM\ManyToOne(targetEntity: 'People')]
+    #[ORM\ManyToOne(targetEntity: People::class)]
     #[ORM\JoinColumn(name: 'receiver_id', referencedColumnName: 'id')]
-    private $receiver;
+    private ?People $receiver;
 
-    /**
-     * @return ?string
-     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     *
-     * @return self
-     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -67,19 +47,11 @@ class Gift implements ResourceInterface
         return $this;
     }
 
-    /**
-     * @return ?float
-     */
     public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    /**
-     * @param float $price
-     *
-     * @return self
-     */
     public function setPrice(float $price): self
     {
         $this->price = $price;
@@ -87,19 +59,11 @@ class Gift implements ResourceInterface
         return $this;
     }
 
-    /**
-     * @return People
-     */
     public function getBuyer(): ?People
     {
         return $this->buyer;
     }
 
-    /**
-     * @param People $buyer
-     *
-     * @return self
-     */
     public function setBuyer(People $buyer = null): self
     {
         $this->buyer = $buyer;
@@ -107,19 +71,11 @@ class Gift implements ResourceInterface
         return $this;
     }
 
-    /**
-     * @return People
-     */
     public function getReceiver(): ?People
     {
         return $this->receiver;
     }
 
-    /**
-     * @param People $receiver
-     *
-     * @return self
-     */
     public function setReceiver(People $receiver = null): self
     {
         $this->receiver = $receiver;

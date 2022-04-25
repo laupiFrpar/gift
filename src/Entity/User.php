@@ -36,48 +36,30 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
 {
     use ResourceTrait;
 
-    /**
-     * @var string
-     *
-     * @Groups({"user:read", "user:write"})
-     */
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank(), Assert\NotNull(), Assert\Length(max: 180)]
-    private $email;
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Groups(['user:read', 'user:write'])]
+    private string $email;
 
     /**
      * @var array<string>
      */
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column(type: 'string')]
-    private $password;
+    private string $password;
 
-    /**
-     * @var string|null
-     */
     #[Assert\NotBlank(groups: ['create']), Assert\NotNull(groups: ['create']), Assert\Length(max: 255)]
     #[Groups(['user:write'])]
     #[SerializedName('password')]
-    private $plainPassword;
+    private ?string $plainPassword;
 
-    /**
-     * @return ?string
-     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return self
-     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -85,29 +67,16 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUserIdentifier(): string
     {
         return $this->email;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * {@inheritdoc}
-     */
     public function getUsername(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     *
-     * {@inheritdoc}
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -129,21 +98,11 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     *
-     * {@inheritdoc}
-     */
     public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     *
-     * @return self
-     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -151,38 +110,22 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     *
-     * {@inheritdoc}
-     */
     public function getSalt(): ?string
     {
         return null;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         $this->plainPassword = null;
     }
 
-    /**
-     * @return ?string
-     */
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
-    /**
-     * @param string $plainPassword
-     *
-     * @return self
-     */
     public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;

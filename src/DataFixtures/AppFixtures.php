@@ -9,27 +9,12 @@ use Lopi\Factory\PeopleFactory;
 use Lopi\Factory\UserFactory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-/**
- * @author Pierre-Louis Launay <lopi@marinlaunay.fr>
- */
 class AppFixtures extends Fixture
 {
-    /**
-     * @var UserPasswordHasherInterface
-     */
-    private $passwordHasher;
-
-    /**
-     * @param UserPasswordHasherInterface $passwordHasher
-     */
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    public function __construct(private UserPasswordHasherInterface $passwordHasher)
     {
-        $this->passwordHasher = $passwordHasher;
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager): void
     {
         UserFactory::createOne([

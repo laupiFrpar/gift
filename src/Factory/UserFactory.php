@@ -30,15 +30,10 @@ use Zenstruck\Foundry\RepositoryProxy;
 final class UserFactory extends ModelFactory
 {
     const DEFAULT_PASSWORD = 'azerty';
-    /**
-     * @var UserPasswordHasherInterface
-     */
-    private $passwordHasher;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    public function __construct(private UserPasswordHasherInterface $passwordHasher)
     {
         parent::__construct();
-        $this->passwordHasher = $passwordHasher;
 
         // TODO inject services if required (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services)
     }

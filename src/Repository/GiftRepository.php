@@ -13,9 +13,6 @@ use Lopi\Entity\Gift;
  */
 class GiftRepository extends AbstractBaseRepository
 {
-    /**
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Gift::class);

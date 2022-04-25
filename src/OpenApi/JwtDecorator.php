@@ -13,15 +13,14 @@ use ApiPlatform\Core\OpenApi\OpenApi;
  */
 final class JwtDecorator implements OpenApiFactoryInterface
 {
-    /**
-     * @param OpenApiFactoryInterface $decorated
-     */
     public function __construct(private OpenApiFactoryInterface $decorated)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
+     *
+     * @param array<string> $context
      */
     public function __invoke(array $context = []): OpenApi
     {
@@ -33,12 +32,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
         return $openApi;
     }
 
-    /**
-     * Build schemas
-     *
-     * @param \ArrayObject $schemas
-     */
-    private function buildSchemas(\ArrayObject $schemas): void
+    private function buildSchemas(?\ArrayObject $schemas): void
     {
         $schemas['Token'] = new \ArrayObject([
             'type' => 'object',
@@ -89,11 +83,6 @@ final class JwtDecorator implements OpenApiFactoryInterface
         ]);
     }
 
-    /**
-     * Build authentication for swagger
-     *
-     * @param OpenApi $openApi
-     */
     private function buildAuthentication(OpenApi $openApi): void
     {
         $pathItem = new Model\PathItem(
@@ -130,11 +119,6 @@ final class JwtDecorator implements OpenApiFactoryInterface
         $openApi->getPaths()->addPath('/api/authentication', $pathItem);
     }
 
-    /**
-     * Build authentication for swagger
-     *
-     * @param OpenApi $openApi
-     */
     private function buildAuthenticationRefresh(OpenApi $openApi): void
     {
         $pathItem = new Model\PathItem(

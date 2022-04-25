@@ -6,32 +6,20 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @author Pierre-Louis Launay <lopi@marinlaunay.fr>
- */
 trait ResourceTrait
 {
-    /**
-     * @var int
-     */
     #[ORM\Id, ORM\GeneratedValue(), ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
-    /**
-     * @var \DateTime createdAt
-     */
     #[Gedmo\Timestampable(on: 'create')]
     #[Groups(['resource:read'])]
     #[ORM\Column(name: 'created_at', type: 'datetime')]
-    private $createdAt;
+    private \DateTime $createdAt;
 
-    /**
-     * @var \DateTime updatedAt
-     */
     #[Gedmo\Timestampable(on: 'update')]
     #[Groups(['resource:read'])]
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
-    private $updatedAt;
+    private \DateTime $updatedAt;
 
     /**
      * {@inheritdoc}
