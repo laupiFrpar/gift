@@ -29,11 +29,11 @@ class Gift implements ResourceInterface
 
     #[ORM\ManyToOne(targetEntity: People::class)]
     #[ORM\JoinColumn(name: 'buyer_id', referencedColumnName: 'id')]
-    private ?People $buyer;
+    private ?People $buyer = null;
 
     #[ORM\ManyToOne(targetEntity: People::class)]
     #[ORM\JoinColumn(name: 'receiver_id', referencedColumnName: 'id')]
-    private ?People $receiver;
+    private ?People $receiver = null;
 
     public function getTitle(): ?string
     {

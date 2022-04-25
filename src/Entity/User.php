@@ -53,7 +53,7 @@ class User implements UserInterface, ResourceInterface, PasswordAuthenticatedUse
     #[Assert\NotBlank(groups: ['create']), Assert\NotNull(groups: ['create']), Assert\Length(max: 255)]
     #[Groups(['user:write'])]
     #[SerializedName('password')]
-    private ?string $plainPassword;
+    private ?string $plainPassword = null;
 
     public function getEmail(): ?string
     {

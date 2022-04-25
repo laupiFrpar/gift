@@ -19,6 +19,11 @@ class UserDataPersister implements DataPersisterInterface
         return $data instanceof User;
     }
 
+    /**
+     * @param User $data
+     *
+     * @return object|void
+     */
     public function persist($data)
     {
         if ($data instanceof User && $data->getPlainPassword()) {
