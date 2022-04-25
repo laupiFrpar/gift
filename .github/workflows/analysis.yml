@@ -26,6 +26,9 @@ jobs:
         env:
           update: true
 
+      - name: Install phpstan extension installer
+        run: composer global install phpstan/extension-installer
+
       - name: Install dependencies
         # if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress --no-suggest
