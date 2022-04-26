@@ -40,9 +40,14 @@ class Gift implements ResourceInterface
     #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'gifts')]
     private Collection $events;
 
+    #[ORM\ManyToMany(targetEntity: People::class)]
+    #[ORM\JoinTable(name: 'participants')]
+    private Collection $participants;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 
     public function getTitle(): ?string
@@ -113,6 +118,30 @@ class Gift implements ResourceInterface
     public function removeEvent(Event $event): self
     {
         $this->events->removeElement($event);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, People>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(People $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(People $participant): self
+    {
+        $this->participants->removeElement($participant);
 
         return $this;
     }

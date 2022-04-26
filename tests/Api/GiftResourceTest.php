@@ -381,6 +381,40 @@ class GiftResourceTest extends ApiTestCase
         $this->assertContains($event, $json['events']);
     }
 
+    public function testAddParticipant()
+    {
+        $this->loginAsUser();
+        $this->createGift();
+        $event = $this->findIriBy(Event::class, ['id' => $this->createEvent()->getId()]);
+        $buyer = $this->findIriBy(People::class, ['id' => $this->createPeople()->getId()]);
+        $receiver = $this->findIriBy(People::class, ['id' => $this->createPeople('Chris', 'Evans')->getId()]);
+        $participant1 = $this->findIriBy(People::class, ['id' => $this->createPeople('Bruce', 'Banner')->getId()]);
+        $participant2 = $this->findIriBy(People::class, ['id' => $this->createPeople('Carol', 'Danvers')->getId()]);
+
+        $response = $this->client->request('POST', 'api/gifts', [
+            'json' => [
+                'title' => 'Lego',
+                'price' => 100.00,
+                'buyer' => $buyer,
+                'receiver' => $receiver,
+                'events' => [
+                    $event,
+                ],
+                'participants' => [
+                    $participant1,
+                    $participant2,
+                ],
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
+
+        $json = $response->toArray();
+
+        $this->assertContains($participant1, $json['participants']);
+        $this->assertContains($participant2, $json['participants']);
+    }
+
     public function createGift(string $title = 'Lego', float $price = 100.00): Gift|Proxy
     {
         return GiftFactory::new()
