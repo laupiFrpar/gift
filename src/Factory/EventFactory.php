@@ -35,13 +35,15 @@ final class EventFactory extends ModelFactory
         // TODO inject services if required (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services)
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function getDefaults(): array
     {
         $types = Event::getTypes();
 
         return [
-            // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'type' => $types[random_int(0, count($types) - 1)],
+            'type' => $types[array_rand($types)],
             'year' => self::faker()->year(),
         ];
     }

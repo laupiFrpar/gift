@@ -38,7 +38,7 @@ class Gift implements ResourceInterface
     private ?People $receiver = null;
 
     #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'gifts')]
-    private $events;
+    private Collection $events;
 
     public function __construct()
     {

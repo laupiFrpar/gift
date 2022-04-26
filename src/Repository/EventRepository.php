@@ -2,11 +2,11 @@
 
 namespace Lopi\Repository;
 
-use Lopi\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Lopi\Entity\Event;
 
 /**
  * @method Event|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,6 +22,9 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param Event $entity
+     * @param bool  $flush
+     *
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -34,6 +37,9 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param Event $entity
+     * @param bool  $flush
+     *
      * @throws ORMException
      * @throws OptimisticLockException
      */

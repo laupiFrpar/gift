@@ -40,7 +40,7 @@ class Event implements ResourceInterface
     private string $year;
 
     #[ORM\ManyToMany(targetEntity: Gift::class, mappedBy: 'events')]
-    private $gifts;
+    private Collection $gifts;
 
     public function __construct()
     {
@@ -71,7 +71,10 @@ class Event implements ResourceInterface
         return $this;
     }
 
-    public static function getTypes()
+    /**
+     * @return array<int, string>
+     */
+    public static function getTypes(): array
     {
         return [
             self::BIRTHDAY_TYPE,
