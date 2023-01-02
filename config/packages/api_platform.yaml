@@ -14,3 +14,4 @@ api_platform:
                 type: header
     enable_swagger_ui: false
     enable_re_doc: false
+    metadata_backward_compatibility_layer: false

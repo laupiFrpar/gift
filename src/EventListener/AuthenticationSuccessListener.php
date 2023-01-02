@@ -2,7 +2,7 @@
 
 namespace Lopi\EventListener;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -22,7 +22,7 @@ class AuthenticationSuccessListener
         }
 
         $data['user'] = [
-            '@id' => $this->iriConverter->getIriFromItem($user),
+            '@id' => $this->iriConverter->getIriFromResource($user),
         ];
 
         $event->setData($data);

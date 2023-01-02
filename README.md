@@ -8,13 +8,11 @@
 * **[PHP](https://php.net) >= 8.0.2**
 * **[Composer 2](https://getcomposer.org/)**
 * **[Symfony Cli](https://symfony.com/download)**
-* **[Yarn](https://yarnpkg.com/)**
 
 ## Install
 
 ```sh
 composer install
-yarn install
 
 # Install Database
 bin/console doctrine:database:create

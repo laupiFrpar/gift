@@ -25,9 +25,9 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    Lopi\DataPersister\UserDataPersister:
+    Lopi\State\UserProcessor:
         bind:
-            $decoratedDataPersister: '@api_platform.doctrine.orm.data_persister'
+            $persistProcessor: '@api_platform.doctrine.orm.state.persist_processor'
 
     Lopi\EventListener\AuthenticationSuccessListener:
         tags:

@@ -2,9 +2,14 @@
 
 namespace Lopi\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Doctrine\ORM\Mapping as ORM;
 use Lopi\Repository\PeopleRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,14 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PeopleRepository::class)]
 #[ApiResource(
     security: 'is_granted("ROLE_USER")',
-    collectionOperations: [
-        'get',
-        'post' => ['security' => 'is_granted("ROLE_ADMIN")'],
-    ],
-    itemOperations: [
-        'get',
-        'put' => ['security' => 'is_granted("ROLE_ADMIN")'],
-        'delete' => ['security' => 'is_granted("ROLE_ADMIN")'],
+    operations: [
+        new Get(),
+        new Put(security: 'is_granted("ROLE_ADMIN")'),
+        new Delete(security: 'is_granted("ROLE_ADMIN")'),
+        new GetCollection(),
+        new Post(security: 'is_granted("ROLE_ADMIN")')
     ],
     shortName: 'peoples',
 )]

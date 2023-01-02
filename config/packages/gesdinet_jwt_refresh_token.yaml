@@ -1,2 +1,3 @@
 gesdinet_jwt_refresh_token:
   ttl: '%env(int:JWT_TOKEN_REFRESH_TTL)%'
+  refresh_token_class: Lopi\Entity\RefreshToken
