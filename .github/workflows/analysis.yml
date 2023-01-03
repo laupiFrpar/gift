@@ -26,6 +26,9 @@ jobs:
         env:
           update: true
 
+      - name: Allow plugin
+        run: composer global config --no-plugins allow.plugins.phpstan/extension-installer true
+
       - name: Install phpstan extension installer
         run: composer global require phpstan/extension-installer
 
