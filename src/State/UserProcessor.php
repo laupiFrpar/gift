@@ -12,8 +12,8 @@ class UserProcessor implements ProcessorInterface
     public function __construct(
         private ProcessorInterface $persistProcessor,
         private UserPasswordHasherInterface $userPasswordHasher
-    )
-    {}
+    ) {
+    }
 
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {

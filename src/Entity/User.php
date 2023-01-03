@@ -9,7 +9,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Doctrine\ORM\Mapping as ORM;
-use Lopi\DataPersister\UserProcessor;
+use Lopi\State\UserProcessor;
 use Lopi\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -24,23 +24,15 @@ use Symfony\Component\Validator\Constraints as Assert;
     security: 'is_granted("ROLE_USER")',
     operations: [
         new Get(),
-        new Put(security: 'is_granted("ROLE_ADMIN") or (is_granted("ROLE_USER") and object == user'),
+        new Put(security: 'is_granted("ROLE_ADMIN") or (is_granted("ROLE_USER") and object == user)'),
         new Delete(security: 'is_granted("ROLE_ADMIN")'),
         new GetCollection(),
-        new Post(security: 'is_granted("ROLE_ADMIN")', processor: UserProcessor::class)
+        new Post(
+            security: 'is_granted("ROLE_ADMIN")',
+            processor: UserProcessor::class,
+            validationContext: ['groups' => ['Default', 'create']]
+        ),
     ],
-    // collectionOperations: [
-    //     'get',
-    //     'post' => [
-    //         'security' => 'is_granted("ROLE_ADMIN")',
-    //         'validation_groups' => ['Default', 'create'],
-    //     ],
-    // ],
-    // itemOperations: [
-    //     'get',
-    //     'put' => ['security' => 'is_granted("ROLE_ADMIN") or (is_granted("ROLE_USER") and object == user)'],
-    //     'delete' => ['security' => 'is_granted("ROLE_ADMIN")'],
-    // ],
     denormalizationContext: ['groups' => ['user:write']],
     normalizationContext: ['groups' => ['user:read', 'resource:read']],
 )]
