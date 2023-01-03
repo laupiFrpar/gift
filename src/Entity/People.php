@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Put(security: 'is_granted("ROLE_ADMIN")'),
         new Delete(security: 'is_granted("ROLE_ADMIN")'),
         new GetCollection(),
-        new Post(security: 'is_granted("ROLE_ADMIN")')
+        new Post(security: 'is_granted("ROLE_ADMIN")'),
     ],
     shortName: 'peoples',
 )]

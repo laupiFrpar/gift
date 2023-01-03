@@ -12,18 +12,28 @@ class UserProcessor implements ProcessorInterface
     public function __construct(
         private ProcessorInterface $persistProcessor,
         private UserPasswordHasherInterface $userPasswordHasher
-    )
-    {}
+    ) {
+    }
 
+    /**
+     * @param mixed        $data
+     * @param Operation    $operation
+     * @param array<mixed> $uriVariables
+     * @param array<mixed> $context
+     *
+     * @return mixed
+     */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        $data->setPassword(
-            $this->userPasswordHasher->hashPassword(
-                $data,
-                $data->getPlainPassword()
-            )
-        );
-        $data->eraseCredentials();
+        if ($data instanceof User && $data->getPlainPassword() !== null) {
+            $data->setPassword(
+                $this->userPasswordHasher->hashPassword(
+                    $data,
+                    $data->getPlainPassword()
+                )
+            );
+            $data->eraseCredentials();
+        }
 
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
     }

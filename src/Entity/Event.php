@@ -28,8 +28,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Put(),
         new Delete(),
         new GetCollection(),
-        new Post()
-    ]
+        new Post(),
+    ],
 )]
 class Event implements ResourceInterface
 {

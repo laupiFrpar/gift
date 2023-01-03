@@ -14,7 +14,7 @@ jobs:
       # —— Setup Github actions 🐙 —————————————————————————————————————————————
       # https://github.com/actions/checkout (official)
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # https://github.com/shivammathur/setup-php (community)
       - name: Install latest PHP, composer and phpstan
@@ -25,6 +25,9 @@ jobs:
           tools: phpstan
         env:
           update: true
+
+      - name: Allow plugin
+        run: composer global config --no-plugins allow-plugins.phpstan/extension-installer true
 
       - name: Install phpstan extension installer
         run: composer global require phpstan/extension-installer
