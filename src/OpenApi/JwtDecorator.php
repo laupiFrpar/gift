@@ -82,7 +82,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
         ]);
     }
 
-    private function buildSecuritySchemes(\ArrayObject $securitySchemes)
+    private function buildSecuritySchemes(?\ArrayObject $securitySchemes): void
     {
         $securitySchemes['JWT'] = new \ArrayObject([
             'type' => 'http',

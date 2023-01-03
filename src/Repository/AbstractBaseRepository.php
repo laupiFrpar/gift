@@ -6,8 +6,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @author Pierre-Louis Launay <lopi@marinlaunay.fr>
- *
- * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\ApiPlatform\Core\Annotation\ApiResource>
  */
 abstract class AbstractBaseRepository extends ServiceEntityRepository
 {
