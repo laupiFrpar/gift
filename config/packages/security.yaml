@@ -1,6 +1,6 @@
 security:
     #  https://symfony.com/doc/current/security/authenticator_manager.html
-    enable_authenticator_manager: true
+    # enable_authenticator_manager: true
 
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
