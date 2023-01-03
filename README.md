@@ -19,7 +19,7 @@ bin/console doctrine:database:create
 bin/console doctrine:migrations:migrate
 
 # Load data fixtures
-bin/console doctrine:fixtures
+bin/console doctrine:fixtures:load
 
 # Install assets
 bin/console assets:install
