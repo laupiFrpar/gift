@@ -17,6 +17,12 @@ composer install
 # Install Database
 bin/console doctrine:database:create
 bin/console doctrine:migrations:migrate
+
+# Load data fixtures
+bin/console doctrine:fixtures
+
+# Install assets
+bin/console assets:install
 ```
 
 ## Run
@@ -24,19 +30,14 @@ bin/console doctrine:migrations:migrate
 ```sh
 docker-composer up -d
 symfony server:start -d
-yarn watch
 ```
 
-You can connect on `https://127.0.0.1`.
-
-### Login
-
-| User           | Password |
-| -------------- | -------- |
-| admin@gift.wip | azerty   |
+You can connect on `https://127.0.0.1/docs`.
 
 ## Test
 
 ```sh
+bin/console --env=test doctrine:database:create
+bin/console --env=test doctrine:schema:create
 bin/phpunit run
 ```

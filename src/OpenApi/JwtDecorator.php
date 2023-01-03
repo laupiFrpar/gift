@@ -2,9 +2,9 @@
 
 namespace Lopi\OpenApi;
 
-use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
-use ApiPlatform\Core\OpenApi\Model;
-use ApiPlatform\Core\OpenApi\OpenApi;
+use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
+use ApiPlatform\OpenApi\Model;
+use ApiPlatform\OpenApi\OpenApi;
 
 /**
  * Adding endpoint to SwaggerUI to retrieve a JWT token
@@ -26,6 +26,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
     {
         $openApi = ($this->decorated)($context);
         $this->buildSchemas($openApi->getComponents()->getSchemas());
+        $this->buildSecuritySchemes($openApi->getComponents()->getSecuritySchemes());
         $this->buildAuthentication($openApi);
         $this->buildAuthenticationRefresh($openApi);
 
@@ -57,7 +58,6 @@ final class JwtDecorator implements OpenApiFactoryInterface
                 ],
             ],
         ]);
-
         $schemas['Credentials'] = new \ArrayObject([
             'type' => 'object',
             'properties' => [
@@ -71,7 +71,6 @@ final class JwtDecorator implements OpenApiFactoryInterface
                 ],
             ],
         ]);
-
         $schemas['RefreshToken'] = new \ArrayObject([
             'type' => 'object',
             'properties' => [
@@ -80,6 +79,15 @@ final class JwtDecorator implements OpenApiFactoryInterface
                     'example' => 'xxx',
                 ],
             ],
+        ]);
+    }
+
+    private function buildSecuritySchemes(\ArrayObject $securitySchemes)
+    {
+        $securitySchemes['JWT'] = new \ArrayObject([
+            'type' => 'http',
+            'scheme' => 'bearer',
+            'bearerFormat' => 'JWT',
         ]);
     }
 

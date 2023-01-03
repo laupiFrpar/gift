@@ -4,6 +4,6 @@ api_authentication:
 gesdinet_jwt_refresh_token:
   path: /api/authentication_refresh
 
-swagger_ui:
-  path: /docs
-  controller: api_platform.swagger.action.ui
+api_doc:
+  path: /documentation
+  controller: api_platform.swagger_ui.action

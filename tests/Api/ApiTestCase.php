@@ -2,8 +2,8 @@
 
 namespace Lopi\Tests\Api;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
+use ApiPlatform\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
+use ApiPlatform\Symfony\Bundle\Test\Client;
 use Lopi\Entity\Event;
 use Lopi\Entity\People;
 use Lopi\Entity\User;

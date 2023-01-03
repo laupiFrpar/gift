@@ -3,7 +3,8 @@ api_platform:
         pagination_client_enabled: true
         pagination_items_per_page: '%lopi.pagination.items_per_page%'
     mapping:
-        paths: ['%kernel.project_dir%/src/Entity']
+        paths:
+            - '%kernel.project_dir%/src/Entity'
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:
@@ -14,4 +15,8 @@ api_platform:
                 type: header
     enable_swagger_ui: false
     enable_re_doc: false
-    metadata_backward_compatibility_layer: false
+    # metadata_backward_compatibility_layer: false
+
+    # Metada about API
+    title: 'Gift API'
+    version: 'v1'
